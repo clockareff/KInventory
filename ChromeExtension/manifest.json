@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "KInventory Plugin",
+  "description": "This extension will allow users to add food items to their KInventory",
+  "version": "1.0",
+
+  "browser_action": {
+   "default_icon": "fridge_icon.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab"
+   ]
+}
