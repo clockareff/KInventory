@@ -1,0 +1,108 @@
+/* 
+KInventory style sheet
+*/
+.body{
+	font-family: Arial, Helvetica;
+	background-color: #ffdead;
+}
+/*
+HEADER
+*/
+.header{
+	background-color: #f4a442;
+	border:	solid #18720c;
+	height: auto;
+	min-width: 550px;
+	padding: 20px;
+	padding-left: 5px;
+	margin: 20px;
+	margin-right: 20px;
+	border-radius: 15px;
+}
+
+.header .header-logo {
+	height: 100px;
+	float: left;
+}
+
+.header .header-title{
+	color: white;
+}
+
+.header .navigation-bar{
+	font-size: 1.2em;
+}
+
+.header .navigation-bar a{
+	color: white;
+	margin: 15px;
+}
+.header .navigation-bar a:link{
+	text-decoration: none;
+}
+.header .navigation-bar a:hover{
+	text-decoration: none;
+	color: #18720c;
+}
+.header .navigation-bar a:visited{
+	text-decoration: none;
+}
+.header .navigation-bar a:active{
+	text-decoration: none;
+}
+
+.main-content{
+	min-width: 520px;
+	max-width: 1150px;
+	padding: 20px;
+	margin: 0px 30px 30px;
+}
+
+/*
+TABLE
+*/
+
+.table {
+	margin-top: 10px;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border: #18720c;
+}
+
+.td, .th {
+    border: 1px solid #18720c;
+    text-align: left;
+    padding: 8px;
+}
+
+.tr:nth-child(even) {
+    background-color: #98f38c;
+}
+
+/*
+BUTTONS
+*/
+.moving-button {
+	border-radius: 10px;
+	font-weight: bold;
+	background-color: #18720c;
+	color: white;
+	border-color: transparent;
+	
+}
+.moving-button:hover{
+	background-color: #0e4507;
+}
+.moving-button:active{
+	background-color: #0e4507;
+	transform: translateY(2px);
+}
+button:focus {
+	outline:0;
+}
+
+i {
+	margin-left: 5px;
+	color: black;
+}

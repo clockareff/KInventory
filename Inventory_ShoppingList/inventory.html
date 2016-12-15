@@ -1,0 +1,103 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>KInventory</title>
+  <link rel="icon" href="../ChromeExtension/fridge-icon.png" type="image/png">
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body class="body" ng-app="KInventory">
+
+    <div class = "header">
+      <img src="../ChromeExtension/fridge-icon.png" class="header-logo">
+      <div class = "header-title">
+        <h2 class = "title">KInventory - Inventory List</h2>
+      </div>
+      <div class = "navigation-bar">
+        <a href="inventory.html" class = "menu-bar-item">Inventory</a>
+        <a href="shoppingList.html" class = "menu-bar-item">Shopping List</a>
+      </div>
+    </div>
+    <div class = "main-content" ng-controller="inventory">
+      <div class = "table-header" style = "font-size: 20px">
+        <span>Sort by:</span>
+        <select>
+          <option>Alphabetical</option>
+          <option>Experation Date</option>
+          <option>Food Group</option>
+          <option>Location</option>
+        </select>
+        <div data-toggle="modal" data-target="#addItemModal" style="display: inline">
+        	<button style = "float: right" class="moving-button">Add Item</button>
+        </div>
+      </div>
+      <div id="addItemModal" class="modal fade" role = "dialog">
+      	<div class="modal-dialog">
+      		<div class="modal-content">
+      			<div class="modal-header">
+      				<button type = "button" class="close" data-dismiss="modal">&times;</button>
+      				<h1>Add Custom Item</h1>
+      			</div>
+      			<!--
+      			<div class="modal-body">
+      				<ng-form ng-repeat="item in inventoryArray">
+      					<p>Name: </p><input type="text" ng-model="item.name">
+      					<p>Expiration Date: </p><input type="text" ng-model="item.expDate">
+      					<p>Food Group: </p><input type="text" ng-model="item.foodGroup">
+      					<p>Location: </p><input type="text" ng-model="item.location">
+      					<button ng-click="addItem(item)" class="btn btn-default">Add Item</button>
+      				</ng-form>
+      			</div>
+      			-->
+      		</div>
+      	</div>
+      </div>
+      <table class="table">
+        <tr class="tr">
+          <th class="th">Name</th>
+          <th class="th">Exp. Date</th>
+          <th class="th">Food Group</th>
+          <th class="th">Location</th>
+          <th class="th" style="width: 15%"><button class="moving-button">Delete</button></td>
+        </tr>
+        <tr class="tr" ng-repeat="item in inventoryArray">
+          <td class="td">{{item.name}}</td>
+          <td class="td">{{item.expDate}}</td>
+          <td class="td">{{item.foodGroup}}</td>
+          <td class="td">{{item.location}}</td>
+          <td class="td">
+          	<input type="checkbox"></input>
+          	<a href="" title="Add to Shopping List"><i class="fa fa-plus" aria-hidden="true"></i></a>
+          	<div style="display: inline">
+          		<a href="" title="Detailed Info"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+          	</div>
+          	<div style="display: inline">
+          		<a href="" title="Edit Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+          	</div>
+          </td>
+        </tr>
+      </table>
+      </div>
+    </div>
+
+  </body>
+  </html>
