@@ -50,6 +50,9 @@
         	<button style = "float: right" class="moving-button">Add Item</button>
         </div>
       </div>
+
+       <!-- ADD ITEM MODAL-->
+
       <div id="addItemModal" class="modal fade" role = "dialog">
       	<div class="modal-dialog">
       		<div class="modal-content">
@@ -57,27 +60,33 @@
       				<button type = "button" class="close" data-dismiss="modal">&times;</button>
       				<h1>Add Custom Item</h1>
       			</div>
-      			<!--
+      			
       			<div class="modal-body">
-      				<ng-form ng-repeat="item in inventoryArray">
-      					<p>Name: </p><input type="text" ng-model="item.name">
-      					<p>Expiration Date: </p><input type="text" ng-model="item.expDate">
-      					<p>Food Group: </p><input type="text" ng-model="item.foodGroup">
-      					<p>Location: </p><input type="text" ng-model="item.location">
-      					<button ng-click="addItem(item)" class="btn btn-default">Add Item</button>
+      				<ng-form>
+      					<span>Name: </span><input type="text" ng-model="newItem.name"><br><br>
+                <span>Expiration Date: </span><input type="text" ng-model="newItem.expDate"><br><br>
+                <span>Food Group: </span><input type="text" ng-model="newItem.foodGroup"><br><br>
+                <span>Location: </span><input type="text" ng-model="newItem.location">
       				</ng-form>
       			</div>
-      			-->
+      			<div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button ng-click="addItem(newItem)" class="btn btn-primary" data-dismiss="modal">Add Item</button>
+            </div>
       		</div>
       	</div>
       </div>
+
+      <!-- END ADD ITEM-->
+      <!-- TABLE-->
+
       <table class="table">
         <tr class="tr">
           <th class="th">Name</th>
           <th class="th">Exp. Date</th>
           <th class="th">Food Group</th>
           <th class="th">Location</th>
-          <th class="th" style="width: 15%"><button class="moving-button">Delete</button></td>
+          <th class="th" style="width: 15%"><button class="moving-button">Delete</button></th>
         </tr>
         <tr class="tr" ng-repeat="item in inventoryArray">
           <td class="td">{{item.name}}</td>
@@ -85,19 +94,46 @@
           <td class="td">{{item.foodGroup}}</td>
           <td class="td">{{item.location}}</td>
           <td class="td">
-          	<input type="checkbox"></input>
+          	<input type="checkbox">
           	<a href="" title="Add to Shopping List"><i class="fa fa-plus" aria-hidden="true"></i></a>
           	<div style="display: inline">
           		<a href="" title="Detailed Info"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
           	</div>
-          	<div style="display: inline">
+          	<div style="display: inline" data-toggle="modal" data-target="#editModal{{item.id}}">
           		<a href="" title="Edit Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
           	</div>
+
+             <!-- EDIT ITEM MODAL-->
+
+            <div id="editModal{{item.id}}" class="modal fade" role = "dialog">
+              <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                    <button type = "button" class="close" data-dismiss="modal">&times;</button>
+                   <h1>Edit Item</h1>
+                  </div>
+                  <div class="modal-body">
+                    <ng-form class="modal-text">
+                      <span>Name: </span><input type="text" ng-model="item.name"><br><br>
+                      <span>Expiration Date: </span><input type="text" ng-model="item.expDate"><br><br>
+                      <span>Food Group: </span><input type="text" ng-model="item.foodGroup"><br><br>
+                      <span>Location: </span><input type="text" ng-model="item.location">
+                    </ng-form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button ng-click="updateItem(item)" class="btn btn-primary" data-dismiss="modal">Update Item</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+             <!-- END EDIT ITEM-->
+
           </td>
         </tr>
       </table>
-      </div>
     </div>
-
   </body>
   </html>
