@@ -1,5 +1,5 @@
 addtocart = function () {
-	alert('added item to cart');
+	alert('added item to shopping list');
 	//add integration with database later
 }
 
