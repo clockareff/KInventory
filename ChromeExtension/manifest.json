@@ -5,11 +5,22 @@
   "description": "This extension will allow users to add food items to their KInventory",
   "version": "1.0",
 
-  "browser_action": {
-   "default_icon": "fridge_icon.png",
-   "default_popup": "popup.html"
+  "icons": {
+    "48": "fridge-icon.png"
   },
+
   "permissions": [
-   "activeTab"
-   ]
+    "tabs", "<all_urls>"
+  ],
+
+  "browser_action": {
+    "default_icon": "fridge-icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "web_accessible_resources": ["add_icon.jpeg"]
 }
