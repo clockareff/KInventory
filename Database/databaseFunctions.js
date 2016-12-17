@@ -124,69 +124,378 @@ var user_data = (function() {
   }
 
 
-console.log(searchFoodDataChrome("butter"));
 
 
   // SHOPPING_LIST FUNCTIONS
 
-  // Check if item is in inventory
+  // Check if item is in shopping list
+  // Requires: int food_id
+  // Returns: bool
+  function isInShoppingList(food_id)
+  {
+    var userData = inputUserData();
+
+    for (var i = 0; i < userData.shoppingList.length; i++)
+    {
+      if (userData.shoppingList[i].food_id == food_id)
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   // Return all food items
+  function getShoppingList()
+  {
+    var userData = inputUserData();
 
-    // w/ sort or search
+    return userData.shoppingList;
+  }
+
+  // Return all food items sorted by sortField
+  // Requires sortField == "alpha", "foodGroup", "storeLoc"
+  // Returns json
+  function getSortedShoppingList(sortField)
+  {
+    var userData = inputUserData();
+    var result;
+
+    if (sortField == "alpha")
+    {
+      result = userData.shoppingList.sort(function (first, second)
+        {
+          if (first.customName >= second.customName)
+            return 1;
+          else
+            return -1;
+        });
+    }
+    else if (sortField == "foodGroup")
+    {
+      result = userData.shoppingList.sort(function (first, second)
+        {
+          if (first.foodGroup >= second.foodGroup)
+            return 1;
+          else
+            return -1;
+        });
+    }
+    else if (sortField == "storeLoc")
+    {
+      result = userData.shoppingList.sort(function (first, second)
+        {
+          if (first.storeLocation >= second.storeLocation)
+            return 1;
+          else
+            return -1;
+        });
+    }
+    else
+    {
+      alert("Incorrect sortField")
+    }
+
+    return result;
+  }
 
   // Add food item
-
-  // Remove food item
-
-  // Move food_item to shopping list
-
   // Add custom food_item
 
-  // Check if item is in shopping_list
+  // Remove food item
+  function removeFromShoppingList(food_id)
+  {
+    var userData = inputUserData();
+
+    for (var i = 0; i < userData.shoppingList.length; i++)
+    {
+      if (userData.shoppingList[i].food_id == food_id)
+      {
+        userData.shoppingList.splice(i,1);
+      }
+    }
+
+      outputUserData(userData);
+  }
+
+  // Move food_item to shopping list
+  function moveFromShoppingListToInventory(food_id, expDate, kitchLoc)
+  {
+    var userData = inputUserData();
+
+    for (var i = 0; i < userData.shoppingList.length; i++)
+    {
+      if (userData.shoppingList[i].food_id == food_id)
+      {
+        var foodItem = userData.shoppingList[i];
+        foodItem.expDate = expDate;
+        foodItem.kitchenLocation = kitchLoc;
+        userData.inventory.push(foodItem);
+
+        userData.shoppingList.splice(i,1);
+      }
+    }
+
+      outputUserData(userData);
+  }
+
+
+  // Check if item is in inventory
 
   // Search for food item to add
   function searchFoodData(foodName) {
     var searchArray = foodName.split(" ");
 
-      var results = [];
+    var results = [];
 
-      for (var i = 0; i < food_data.length; i++)
+    for (var i = 0; i < food_data.length; i++)
+    {
+      var numMatches = 0;
+      var resultName = food_data[i].name;
+
+      for (var j = 0; j < searchArray.length; j++)
       {
-        var numMatches = 0;
-
-        for (var j = 0; j < searchArray.length; j++)
+        var index = resultName.search(searchArray[j].toUpperCase());
+        
+        if (index != -1)
         {
-          if (food_data[i].name.search(searchArray[j]/i) != -1)
+          if (index != 0)
           {
-            numMatches += 1;
-          }
-        }
+            if (resultName[index-1] == " ")
+            {
+              var lastIdx = index+searchArray[j].length;
 
-        if (numMatches != 0)
-          results.push({"numMatches" : numMatches, "food_item" : food_data[i]});
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
+              }
+            }
+          }
+          else
+          {
+              var lastIdx = index+searchArray[j].length;
+
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
+              }
+          }
+          
+        }
       }
       
-      return results;
+      if (numMatches == searchArray.length)
+      {
+        //results.push({hits : numMatches, foodItem : food_data[i]});
+        results.push(food_data[i]);
+      }
+    }
+    return results;
   }
 
+console.log(searchFoodData("salt butter"));
 
 
   // INVENTORY FUNCTIONS
 
   // Check if item is in inventory
+  // Requires: int food_id
+  // Returns: bool
+  function isInInventory(food_id)
+  {
+    var userData = inputUserData();
+
+    for (var i = 0; i < userData.inventory.length; i++)
+    {
+      if (userData.inventory[i].food_id == food_id)
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   // Return all food items
+  function getInventory()
+  {
+    var userData = inputUserData();
 
-    // w/ sort or search
+    return userData.inventory;
+  }
+
+  // Return all food items sorted by sortField
+  // Requires sortField == "alpha", "expDate", "foodGroup", "kitchLoc", "storeLoc"
+  // Returns json
+  function getSortedInventory(sortField)
+  {
+    var userData = inputUserData();
+    var result;
+
+    if (sortField == "alpha")
+    {
+      result = userData.inventory.sort(function (first, second)
+        {
+          if (first.customName >= second.customName)
+            return 1;
+          else
+            return -1;
+        });
+    }
+    else if (sortField == "expDate")
+    {
+      result = userData.inventory.sort(function (first, second)
+      {
+        var firstDate = first.expDate.split("/");
+        var secondDate = second.expDate.split("/");
+
+        var date1 = new Date(firstDate[2], firstDate[0], firstDate[1]);
+        var date2 = new Date(secondDate[2], secondDate[0], secondDate[1]);
+
+        if (date1 > date2)
+          return 1;
+        else
+          return -1;
+      });
+    }
+    else if (sortField == "foodGroup")
+    {
+      result = userData.inventory.sort(function (first, second)
+        {
+          if (first.foodGroup >= second.foodGroup)
+            return 1;
+          else
+            return -1;
+        });
+    }
+    else if (sortField == "kitchLoc")
+    {
+      result = userData.inventory.sort(function (first, second)
+        {
+          if (first.kitchenLocation >= second.kitchenLocation)
+            return 1;
+          else
+            return -1;
+        });
+    }
+    else if (sortField == "storeLoc")
+    {
+      result = userData.inventory.sort(function (first, second)
+        {
+          if (first.storeLocation >= second.storeLocation)
+            return 1;
+          else
+            return -1;
+        });
+    }
+    else
+    {
+      alert("Incorrect sortField")
+    }
+
+    return result;
+  }
 
   // Add food item
 
+  // Add custom food_item
+
   // Remove food item
+  function removeFromInventory(food_id)
+  {
+    var userData = inputUserData();
+
+    for (var i = 0; i < userData.inventory.length; i++)
+    {
+      if (userData.inventory[i].food_id == food_id)
+      {
+        userData.inventory.splice(i,1);
+      }
+    }
+
+    return outputUserData(userData);
+  }
+
+  console.log(removeFromInventory(1002));
 
   // Move food_item to shopping list
+  function moveFromInventoryToShoppingList(food_id)
+  {
+    var userData = inputUserData();
 
-  // Add custom food_item
+    for (var i = 0; i < userData.inventory.length; i++)
+    {
+      if (userData.inventory[i].food_id == food_id)
+      {
+        userData.shoppingList.push(userData.inventory[i]);
+        userData.inventory.splice(i,1);
+      }
+    }
+
+      outputUserData(userData);
+  }
+ 
+
+
+
+
+// HELPER FUNCTIONS
+
+// Output user_data
+function outputUserData(input) 
+{
+  document.cookie = input;
+}
+
+// Input user_data
+function inputUserData() 
+{
+  document.cookie = "";
+  console.log(document.cookie);
+
+  if (document.cookie == "")
+  {
+    var json = null;
+    $.ajax({
+      'async': false,
+      'global': false,
+      'url': "user_data.json",
+      'dataType': "json",
+      'success': function (data) {
+        json = data;
+      }
+    });
+    document.cookie = json[0];
+  }
+
+  return document.cookie;
+}
+
+
+function alpha(first, second)
+{
+  return first.customName > second.customName;
+}
+
+function expDate(first, second)
+{
+  var firstDate = first.expDate.split("/");
+  var secondDate = second.expDate.split("/");
+
+  var date1 = new Date(firstDate[2], firstDate[0], firstDate[1]);
+  var date2 = new Date(secondDate[2], secondDate[0], secondDate[1]);
+
+  return date1 > date2;
+}
 
 
 
