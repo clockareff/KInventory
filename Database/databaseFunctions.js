@@ -1,3 +1,112 @@
+// ---------- HEADER ----------
+
+  // Search for foodName
+  // Requires: string foodName
+  // Modifies: nothing
+  // Returns: json containing match results
+  // function searchFoodDataChrome(foodName) 
+
+  // Search for food item to add
+  // Requires: string foodName (can be multiple words)
+  // Modifies: nothing
+  // Returns: json containing match results
+  // function searchFoodData(foodName)
+
+  // SHOPPING_LIST FUNCTIONS
+
+  // Check if item is in shopping list
+  // Requires: int food_id
+  // Modifies: nothing
+  // Returns: bool
+  // function isInShoppingList(food_id)
+
+  // Return all food items
+  // Requires: nothing
+  // Modifies: nothing
+  // Returns: shoppingList
+  // function getShoppingList()
+
+  // Return all food items sorted by sortField
+  // Requires: sortField == "alpha", "expDate", "foodGroup", "kitchLoc", "storeLoc"
+  // Modifies: nothing
+  // Returns: sorted shoppingList
+  // function getSortedShoppingList(sortField)
+
+  // Add food item
+  // Requires: food_item, customName, expDate, kitchLoc, storeLoc, foodGroup
+  // Modifies: shoppingList
+  // Returns: shoppingList
+  // function addToShoppingList(food_item, customName, expDate, kitchLoc, storeLoc, foodGroup)
+  
+  // Add custom food_item
+  // Requires: string customName, expDate, kitchLoc, storeLoc, foodGroup;
+  // Modifies: shoppingList, customFoodItems
+  // Returns: shoppingList
+  //function addCustomToShoppingList(customName, expDate, kitchLoc, storeLoc, foodGroup)
+  
+  // Add custom food_item with nutritional information
+  // Requires: string customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv;
+  // Modifies: shoppingList and customFoodItems
+  // Returns: shoppingList
+  // function addCustomToShoppingListWithNutrition(customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv)
+  
+  // Remove food item
+  // Requires: food_id
+  // Modifies: user_data.inventory
+  // Returns: shoppingList
+  // function removeFromShoppingList(food_id)
+
+  // INVENTORY FUNCTIONS
+
+  // Check if item is in inventory
+  // Requires: int food_id
+  // Modifies: nothing
+  // Returns: bool
+  // function isInInventory(food_id)
+
+  // Return all food items
+  // Requires: nothing
+  // Modifies: nothing
+  // Returns: inventory
+  // function getInventory()
+
+  // Return all food items sorted by sortField
+  // Requires: sortField == "alpha", "expDate", "foodGroup", "kitchLoc", "storeLoc"
+  // Modifies: nothing
+  // Returns: sorted inventory
+  // function getSortedInventory(sortField)
+
+  // Add food item
+  // Requires: food_item, customName, expDate, kitchLoc, storeLoc, foodGroup
+  // Modifies: inventory
+  // Returns: inventory
+  // function addToInventory(food_item, customName, expDate, kitchLoc, storeLoc, foodGroup)
+  
+  // Add custom food_item
+  // Requires: string customName, expDate, kitchLoc, storeLoc, foodGroup;
+  // Modifies: inventory, customFoodItems
+  // Returns: inventory
+  // function addCustomToInventory(customName, expDate, kitchLoc, storeLoc, foodGroup)
+  
+  // Add custom food_item with nutritional information
+  // Requires: string customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv;
+  // Modifies: inventory and customFoodItems
+  // Returns: inventory
+  // function addCustomToInventoryWithNutrition(customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv)
+  
+  // Remove food item
+  // Requires: food_id
+  // Modifies: user_data.inventory
+  // Returns: inventory
+  // function removeFromInventory(food_id)
+
+  // Move food_item to shopping list
+  // Requires: food_id, storeLoc
+  // Modifies: inventory, shoppingList
+  // Returns: inventory
+  // function moveFromInventoryToShoppingList(food_id, storeLoc)
+  
+
 
 // Import JSON with an AJAX call
 
@@ -24,9 +133,10 @@ console.log(food_data);
   // FOOD_DATA FUNCTIONS
 
 
-  // Search food_data for a name
+  // Search for foodName
   // Requires: string foodName
-  // Returns: array of all food_items that contain the foodName
+  // Modifies: nothing
+  // Returns: json containing match results
   function searchFoodDataChrome(foodName) {
       var results = [];
 
@@ -117,6 +227,9 @@ console.log(food_data);
   }
 
 // Search for food item to add
+// Requires: string foodName (can be multiple words)
+// Modifies: nothing
+// Returns: json containing match results
   function searchFoodData(foodName) {
     var searchArray = foodName.split(" ");
     var results = [];
