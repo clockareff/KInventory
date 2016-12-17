@@ -30,6 +30,7 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 		}
 		//Write to JSON -- TODO --
 	};
+	
 	$scope.addItem = function(item){
 		item.id = $scope.idCount;
 		$scope.idCount++;
@@ -38,6 +39,7 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 		//Write to JSON -- TODO --
 		$scope.newItem = {};
 	};
+
 	$scope.delete = function(){
 		for (var i = 0; i < $scope.inventoryArray.length; ++i){
 			if ($scope.inventoryArray[i].isChecked){
@@ -47,4 +49,35 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 			}
 		}
 	}
+}]);
+
+app.controller('shoppingList', ['$scope', '$http', function($scope, $http){
+	$scope.sLArray = [{
+		name: 'Cheese',
+		storeLocation: 'Dairy Aisle',
+		id: '0'
+	}, {
+		name: 'Oatmeal',
+		storeLocation: 'Breakfast Foods',
+		id: '1'
+	}];
+	$scope.idCount = $scope.sLArray.length;
+	$scope.newItem = {};
+	$scope.updateItem = function(item){
+		for(var i = 0; i < $scope.sLArray.length; i++){
+			if (item.id == $scope.sLArray[i].id){
+				$scope.sLArray[i] = item;
+				break;
+			}
+		}
+		//Write to JSON -- TODO --
+	};
+	$scope.addItem = function(item){
+		item.id = $scope.idCount;
+		$scope.idCount++;
+		$scope.sLArray.push(item);
+		//SORT -- TODO --
+		//Write to JSON -- TODO --
+		$scope.newItem = {};
+	};
 }]);

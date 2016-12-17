@@ -1,39 +1,3 @@
-// document.open("text/html", "replace");
-// document.write("<html><body><p>Hello World!</p></body></html>");
-// document.close();
-
-
-
-
-
-// // Add a new member into the array (example, using made up values)
-// obj.reports.push({
-//   "id": ""+obj.reports.length + 1,
-//   "type": "member",
-//   "name": "Joe",
-//   "email": "asdf@gmail.com",
-//   "password": "ajdj12oi42"
-// });
-
-// document.getElementById("during").innerHTML = JSON.stringify(obj);
-// console.log("During", JSON.parse(JSON.stringify(obj))); // objects use pointers, clone it to see the value at this point
-
-// // When deleting items, it is often easier to start high, and end low
-// for(var c = obj.reports.length - 1; c >= 0; c--) {
-//   // Delete member in JSON where id == 1 and email == amir@site.com
-//   if(obj.reports[c].id == "1" && obj.reports[c].email == "amir@site.com") {
-//     obj.reports.splice(c, 1);
-//   } else {
-//     // Add values into the objects (example, using random numbers)
-//     obj.reports[c].newKey = "New Value! " + Math.floor(Math.random() * 100);
-//   }
-// }
-
-// document.getElementById("after").innerHTML = JSON.stringify(obj);
-// console.log("After", JSON.parse(JSON.stringify(obj))); // objects use pointers, clone it to see the value at this point
-
-
-
 
 // Import JSON with an AJAX call
 
@@ -52,27 +16,13 @@ var food_data = (function() {
   return json;
 })();
 
-var user_data = (function() {
-  var json = null;
-  $.ajax({
-    'async': false,
-    'global': false,
-    'url': "user_data.json",
-    'dataType': "json",
-    'success': function (data) {
-      json = data;
-    }
-  });
-  return json;
-})();
 
-  console.log(food_data);
-  console.log(user_data);
 
-  console.log(food_data[0].food_id);
+console.log(food_data);
 
 
   // FOOD_DATA FUNCTIONS
+
 
   // Search food_data for a name
   // Requires: string foodName
@@ -126,6 +76,17 @@ var user_data = (function() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
   // SHOPPING_LIST FUNCTIONS
 
   // Check if item is in shopping list
@@ -133,7 +94,7 @@ var user_data = (function() {
   // Returns: bool
   function isInShoppingList(food_id)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.shoppingList.length; i++)
     {
@@ -149,7 +110,7 @@ var user_data = (function() {
   // Return all food items
   function getShoppingList()
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     return userData.shoppingList;
   }
@@ -159,7 +120,7 @@ var user_data = (function() {
   // Returns json
   function getSortedShoppingList(sortField)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
     var result;
 
     if (sortField == "alpha")
@@ -206,7 +167,7 @@ var user_data = (function() {
   // Remove food item
   function removeFromShoppingList(food_id)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.shoppingList.length; i++)
     {
@@ -216,13 +177,13 @@ var user_data = (function() {
       }
     }
 
-      outputUserData(userData);
+      setUserData(userData);
   }
 
   // Move food_item to shopping list
   function moveFromShoppingListToInventory(food_id, expDate, kitchLoc)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.shoppingList.length; i++)
     {
@@ -237,7 +198,7 @@ var user_data = (function() {
       }
     }
 
-      outputUserData(userData);
+      setUserData(userData);
   }
 
 
@@ -302,7 +263,10 @@ var user_data = (function() {
     return results;
   }
 
-console.log(searchFoodData("salt butter"));
+
+
+
+
 
 
   // INVENTORY FUNCTIONS
@@ -312,7 +276,7 @@ console.log(searchFoodData("salt butter"));
   // Returns: bool
   function isInInventory(food_id)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.inventory.length; i++)
     {
@@ -328,7 +292,7 @@ console.log(searchFoodData("salt butter"));
   // Return all food items
   function getInventory()
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     return userData.inventory;
   }
@@ -338,7 +302,7 @@ console.log(searchFoodData("salt butter"));
   // Returns json
   function getSortedInventory(sortField)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
     var result;
 
     if (sortField == "alpha")
@@ -412,7 +376,7 @@ console.log(searchFoodData("salt butter"));
   // Remove food item
   function removeFromInventory(food_id)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.inventory.length; i++)
     {
@@ -422,26 +386,30 @@ console.log(searchFoodData("salt butter"));
       }
     }
 
-    return outputUserData(userData);
+    setUserData(userData);
   }
 
   console.log(removeFromInventory(1002));
+  console.log(getUserData());
 
   // Move food_item to shopping list
-  function moveFromInventoryToShoppingList(food_id)
+  function moveFromInventoryToShoppingList(food_id, storeLoc)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.inventory.length; i++)
     {
       if (userData.inventory[i].food_id == food_id)
       {
-        userData.shoppingList.push(userData.inventory[i]);
+        var foodItem = userData.inventory[i];
+        foodItem.storeLocation = storeLoc;
+        foodItem.expDate = "";
+        userData.shoppingList.push(foodItem);
         userData.inventory.splice(i,1);
       }
     }
 
-      outputUserData(userData);
+      setUserData(userData);
   }
  
 
@@ -451,19 +419,46 @@ console.log(searchFoodData("salt butter"));
 // HELPER FUNCTIONS
 
 // Output user_data
-function outputUserData(input) 
+function setUserData(cvalue) 
 {
-  document.cookie = input;
+    var output = "";
+    if (cvalue != "")
+      output = JSON.stringify(cvalue);
+    else
+      output = cvalue;
+
+    var cname = "user_data";
+    var exdays = 30;
+
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + output + ";" + expires + ";path=/";
 }
 
 // Input user_data
-function inputUserData() 
+function getUserData() 
 {
-  document.cookie = "";
-  console.log(document.cookie);
+  var cname = "user_data";
+  //eraseCookie();
 
-  if (document.cookie == "")
-  {
+  var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          if (name.length != c.length)
+          {
+            var userData = JSON.parse(c.substring(name.length, c.length));
+            return userData[0];
+          }
+        }
+    }
+    //return "";
+    var user_dataJSON = (function() {
     var json = null;
     $.ajax({
       'async': false,
@@ -474,31 +469,15 @@ function inputUserData()
         json = data;
       }
     });
-    document.cookie = json[0];
-  }
-
-  return document.cookie;
+    return json;
+  })();
+  return user_dataJSON[0];
+    
 }
 
-
-function alpha(first, second)
+function eraseCookie()
 {
-  return first.customName > second.customName;
+  setUserData("");
 }
-
-function expDate(first, second)
-{
-  var firstDate = first.expDate.split("/");
-  var secondDate = second.expDate.split("/");
-
-  var date1 = new Date(firstDate[2], firstDate[0], firstDate[1]);
-  var date2 = new Date(secondDate[2], secondDate[0], secondDate[1]);
-
-  return date1 > date2;
-}
-
-
-
-
 
 

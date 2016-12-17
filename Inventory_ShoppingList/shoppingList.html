@@ -9,7 +9,7 @@
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style.css"/>
   <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -37,7 +37,7 @@
         <a href="shoppingList.html" class = "menu-bar-item">Shopping List</a>
       </div>
     </div>
-    <div class = "main-content" ng-controller="inventory">
+    <div class = "main-content" ng-controller="shoppingList">
       <div class = "table-header" style = "font-size: 20px">
         <span>Sort by:</span>
         <select>
@@ -76,28 +76,20 @@
       <!-- END ADD ITEM-->
       <!-- TABLE-->
 
-      <table class="table">
+      <table class="table" style="font-size:2em;">
         <tr class="tr">
           <th class="th">Name</th>
           <th class="th">Store Location</th>
-          <th class="th" style="width: 15%"></th>
+          <th class="th" style="width: 5%"></th>
         </tr>
-        <tr class="tr" ng-repeat="item in inventoryArray">
-          <td class="td">{{item.name}}
+        <tr class="tr" ng-repeat="item in sLArray">
+          <td class="td" >{{item.name}}
             <div style="display: inline">
               <a href="" title="Detailed Info"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
             </div>
             <div style="display: inline" data-toggle="modal" data-target="#editModal{{item.id}}">
               <a href="" title="Edit Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             </div>
-          </td>
-          <td class="td">{{item.storeLocation}}</td>
-          <td class="td">
-
-            <div style="display: inline;">
-              <img title="Delete item" src="../ChromeExtension/redX.png" style="height: 20px;">
-            </div>
-
 
              <!-- EDIT ITEM MODAL-->
 
@@ -123,11 +115,18 @@
               </div>
             </div>
 
-             <!-- END EDIT ITEM-->
+             <!-- END EDIT ITEM-->  
+          </td>
 
+          <td class="td">{{item.storeLocation}}</td>
+          <td class="td">
+
+            <div style="display: inline;">
+              <input type="image" title="Delete item" src="../ChromeExtension/redX.png" style="height:40px;"></input>
+            </div>
           </td>
         </tr>
       </table>
     </div>
   </body>
-  </html>
+</html>
