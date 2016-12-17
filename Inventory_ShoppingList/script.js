@@ -2,20 +2,23 @@ var app = angular.module('KInventory', []);
 
 app.controller('inventory', ['$scope', '$http', function($scope, $http){
 	$scope.inventoryArray = [{
-		name: 'Milk',
+		customName: 'Milk',
 		expDate: '12/20/16',
 		foodGroup: 'Dairy',
-		location: 'Refridgerator',
+		kitchenLocation: 'Refridgerator',
 		storeLocation: 'Dairy Aisle',
-		id: '0'
+		food_id: '0',
+		isChecked: false
 	}, {
-		name: 'Spam',
+		customName: 'Spam',
 		expDate: 'N/A',
 		foodGroup: 'Canned Meat',
-		location: 'Pantry',
+		kitchenLocation: 'Pantry',
 		storeLocation: 'Canned Food',
-		id: '1'
+		food_id: '1',
+		isChecked: false
 	}];
+	// $scope.inventoryArray = getInventory();
 	$scope.idCount = $scope.inventoryArray.length;
 	$scope.newItem = {};
 	$scope.updateItem = function(item){
@@ -35,4 +38,13 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 		//Write to JSON -- TODO --
 		$scope.newItem = {};
 	};
+	$scope.delete = function(){
+		for (var i = 0; i < $scope.inventoryArray.length; ++i){
+			if ($scope.inventoryArray[i].isChecked){
+				$scope.inventoryArray.splice(i,1);
+				i--;
+				//Write to JSON -- TODO --
+			}
+		}
+	}
 }]);
