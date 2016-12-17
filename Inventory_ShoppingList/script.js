@@ -6,12 +6,14 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 		expDate: '12/20/16',
 		foodGroup: 'Dairy',
 		location: 'Refridgerator',
+		storeLocation: 'Dairy Aisle',
 		id: '0'
 	}, {
 		name: 'Spam',
 		expDate: 'N/A',
 		foodGroup: 'Canned Meat',
 		location: 'Pantry',
+		storeLocation: 'Canned Food',
 		id: '1'
 	}];
 	$scope.idCount = $scope.inventoryArray.length;

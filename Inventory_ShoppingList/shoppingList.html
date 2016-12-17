@@ -10,15 +10,22 @@
   <meta name="author" content="SitePoint">
 
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="script.js"></script>
 
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
     <![endif]-->
   </head>
 
-  <body>
+  <body class="body" ng-app="KInventory">
 
     <div class = "header">
       <img src="../ChromeExtension/fridge-icon.png" class="header-logo">
@@ -30,9 +37,97 @@
         <a href="shoppingList.html" class = "menu-bar-item">Shopping List</a>
       </div>
     </div>
-    <div class = "main-content">
-        
-    </div>
+    <div class = "main-content" ng-controller="inventory">
+      <div class = "table-header" style = "font-size: 20px">
+        <span>Sort by:</span>
+        <select>
+          <option>Name</option>
+          <option>Store Location</option>
+        </select>
+        <div data-toggle="modal" data-target="#addItemModal" style="display: inline">
+          <button style = "float: right" class="moving-button">Add Item</button>
+        </div>
+      </div>
 
+       <!-- ADD ITEM MODAL-->
+
+      <div id="addItemModal" class="modal fade" role = "dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type = "button" class="close" data-dismiss="modal">&times;</button>
+              <h1>Add Custom Item</h1>
+            </div>
+            
+            <div class="modal-body">
+              <ng-form>
+                <span>Name: </span><input type="text" ng-model="newItem.name"><br><br>
+                <span>Store Location: </span><input type="text" ng-model="newItem.storeLocation">
+              </ng-form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button ng-click="addItem(newItem)" class="btn btn-primary" data-dismiss="modal">Add Item</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- END ADD ITEM-->
+      <!-- TABLE-->
+
+      <table class="table">
+        <tr class="tr">
+          <th class="th">Name</th>
+          <th class="th">Store Location</th>
+          <th class="th" style="width: 15%"></th>
+        </tr>
+        <tr class="tr" ng-repeat="item in inventoryArray">
+          <td class="td">{{item.name}}
+            <div style="display: inline">
+              <a href="" title="Detailed Info"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+            </div>
+            <div style="display: inline" data-toggle="modal" data-target="#editModal{{item.id}}">
+              <a href="" title="Edit Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            </div>
+          </td>
+          <td class="td">{{item.storeLocation}}</td>
+          <td class="td">
+
+            <div style="display: inline;">
+              <img title="Delete item" src="../ChromeExtension/redX.png" style="height: 20px;">
+            </div>
+
+
+             <!-- EDIT ITEM MODAL-->
+
+            <div id="editModal{{item.id}}" class="modal fade" role = "dialog">
+              <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                    <button type = "button" class="close" data-dismiss="modal">&times;</button>
+                   <h1>Edit Item</h1>
+                  </div>
+                  <div class="modal-body">
+                    <ng-form class="modal-text">
+                      <span>Name: </span><input type="text" ng-model="item.name"><br><br>
+                      <span>Store Location: </span><input type="text" ng-model="item.storeLocation"><br><br>
+                    </ng-form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button ng-click="updateItem(item)" class="btn btn-primary" data-dismiss="modal">Update Item</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+             <!-- END EDIT ITEM-->
+
+          </td>
+        </tr>
+      </table>
+    </div>
   </body>
   </html>
