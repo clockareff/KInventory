@@ -16,22 +16,9 @@ var food_data = (function() {
   return json;
 })();
 
-var user_data = (function() {
-  var json = null;
-  $.ajax({
-    'async': false,
-    'global': false,
-    'url': "user_data.json",
-    'dataType': "json",
-    'success': function (data) {
-      json = data;
-    }
-  });
-  return json;
-})();
+
 
 console.log(food_data);
-console.log(user_data);
 
 
   // FOOD_DATA FUNCTIONS
@@ -107,7 +94,7 @@ console.log(user_data);
   // Returns: bool
   function isInShoppingList(food_id)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.shoppingList.length; i++)
     {
@@ -123,7 +110,7 @@ console.log(user_data);
   // Return all food items
   function getShoppingList()
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     return userData.shoppingList;
   }
@@ -133,7 +120,7 @@ console.log(user_data);
   // Returns json
   function getSortedShoppingList(sortField)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
     var result;
 
     if (sortField == "alpha")
@@ -180,7 +167,7 @@ console.log(user_data);
   // Remove food item
   function removeFromShoppingList(food_id)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.shoppingList.length; i++)
     {
@@ -190,13 +177,13 @@ console.log(user_data);
       }
     }
 
-      outputUserData(userData);
+      setUserData(userData);
   }
 
   // Move food_item to shopping list
   function moveFromShoppingListToInventory(food_id, expDate, kitchLoc)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.shoppingList.length; i++)
     {
@@ -211,7 +198,7 @@ console.log(user_data);
       }
     }
 
-      outputUserData(userData);
+      setUserData(userData);
   }
 
 
@@ -289,7 +276,7 @@ console.log(user_data);
   // Returns: bool
   function isInInventory(food_id)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.inventory.length; i++)
     {
@@ -305,7 +292,7 @@ console.log(user_data);
   // Return all food items
   function getInventory()
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     return userData.inventory;
   }
@@ -315,7 +302,7 @@ console.log(user_data);
   // Returns json
   function getSortedInventory(sortField)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
     var result;
 
     if (sortField == "alpha")
@@ -389,7 +376,7 @@ console.log(user_data);
   // Remove food item
   function removeFromInventory(food_id)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.inventory.length; i++)
     {
@@ -399,26 +386,30 @@ console.log(user_data);
       }
     }
 
-    return outputUserData(userData);
+    setUserData(userData);
   }
 
   console.log(removeFromInventory(1002));
+  console.log(getUserData());
 
   // Move food_item to shopping list
-  function moveFromInventoryToShoppingList(food_id)
+  function moveFromInventoryToShoppingList(food_id, storeLoc)
   {
-    var userData = inputUserData();
+    var userData = getUserData();
 
     for (var i = 0; i < userData.inventory.length; i++)
     {
       if (userData.inventory[i].food_id == food_id)
       {
-        userData.shoppingList.push(userData.inventory[i]);
+        var foodItem = userData.inventory[i];
+        foodItem.storeLocation = storeLoc;
+        foodItem.expDate = "";
+        userData.shoppingList.push(foodItem);
         userData.inventory.splice(i,1);
       }
     }
 
-      outputUserData(userData);
+      setUserData(userData);
   }
  
 
@@ -428,23 +419,46 @@ console.log(user_data);
 // HELPER FUNCTIONS
 
 // Output user_data
-function outputUserData(output) 
+function setUserData(cvalue) 
 {
-  var filepath = "user_data.json";
-  var txtFile = new File(filepath);
-  txtFile.open("w");
-  txtFile.writeln(output);
-  txtFile.close();
+    var output = "";
+    if (cvalue != "")
+      output = JSON.stringify(cvalue);
+    else
+      output = cvalue;
+
+    var cname = "user_data";
+    var exdays = 30;
+
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + output + ";" + expires + ";path=/";
 }
 
 // Input user_data
-function inputUserData() 
+function getUserData() 
 {
-  document.cookie = "";
-  console.log(document.cookie);
+  var cname = "user_data";
+  //eraseCookie();
 
-  if (document.cookie == "")
-  {
+  var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          if (name.length != c.length)
+          {
+            var userData = JSON.parse(c.substring(name.length, c.length));
+            return userData[0];
+          }
+        }
+    }
+    //return "";
+    var user_dataJSON = (function() {
     var json = null;
     $.ajax({
       'async': false,
@@ -455,12 +469,15 @@ function inputUserData()
         json = data;
       }
     });
-    document.cookie = json[0];
-  }
-
-  return document.cookie;
+    return json;
+  })();
+  return user_dataJSON[0];
+    
 }
 
-
+function eraseCookie()
+{
+  setUserData("");
+}
 
 
