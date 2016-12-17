@@ -2,14 +2,8 @@
 // document.write("<html><body><p>Hello World!</p></body></html>");
 // document.close();
 
-// var amir='{"reports":[' +
-//     '{"id": "1","type": "admin","name": "amir","email": "amir@site.com","password": "123"},' +
-//     '{"id": "2","type": "member","name": "kevin","email": "ad@ad.com","password": "1234"}]}';
 
-// var obj = JSON.parse(amir);
 
-// document.getElementById("before").innerHTML = JSON.stringify(obj);
-// console.log("Before", JSON.parse(JSON.stringify(obj))); // objects use pointers, clone it to see the value at this point
 
 
 // // Add a new member into the array (example, using made up values)
@@ -75,12 +69,62 @@ var user_data = (function() {
   console.log(food_data);
   console.log(user_data);
 
+  console.log(food_data[0].food_id);
+
 
   // FOOD_DATA FUNCTIONS
 
   // Search food_data for a name
+  // Requires: string foodName
+  // Returns: array of all food_items that contain the foodName
+  function searchFoodDataChrome(foodName) {
+      var results = [];
+
+      for (var i = 0; i < food_data.length; i++)
+      {
+          var resultName = food_data[i].name;
+          var index = resultName.search(foodName.toUpperCase());
+
+          if (index != -1)
+          {
+            if (index != 0)
+            {
+              if (resultName[index-1] == " ")
+              {
+                var lastIdx = index+foodName.length;
+
+                if (lastIdx == resultName.length)
+                {
+                  results.push(food_data[i]);
+                } 
+                else if (resultName[lastIdx] == " ")
+                {
+                  results.push(food_data[i]);
+                }
+              }
+            }
+            else
+            {
+                var lastIdx = index+foodName.length;
+
+                if (lastIdx == resultName.length)
+                {
+                  results.push(food_data[i]);
+                } 
+                else if (resultName[lastIdx] == " ")
+                {
+                  results.push(food_data[i]);
+                }
+            }
+            
+          }
+      }
+      
+      return results;
+  }
 
 
+console.log(searchFoodDataChrome("butter"));
 
 
   // SHOPPING_LIST FUNCTIONS
@@ -101,6 +145,30 @@ var user_data = (function() {
 
   // Check if item is in shopping_list
 
+  // Search for food item to add
+  function searchFoodData(foodName) {
+    var searchArray = foodName.split(" ");
+
+      var results = [];
+
+      for (var i = 0; i < food_data.length; i++)
+      {
+        var numMatches = 0;
+
+        for (var j = 0; j < searchArray.length; j++)
+        {
+          if (food_data[i].name.search(searchArray[j]/i) != -1)
+          {
+            numMatches += 1;
+          }
+        }
+
+        if (numMatches != 0)
+          results.push({"numMatches" : numMatches, "food_item" : food_data[i]});
+      }
+      
+      return results;
+  }
 
 
 
@@ -119,8 +187,6 @@ var user_data = (function() {
   // Move food_item to shopping list
 
   // Add custom food_item
-
-  
 
 
 
