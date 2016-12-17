@@ -18,6 +18,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="../Database/databaseFunctions.js"></script>
   <script src="script.js"></script>
 
   <!--[if lt IE 9]>
@@ -63,10 +64,10 @@
       			
       			<div class="modal-body">
       				<ng-form>
-      					<span>Name: </span><input type="text" ng-model="newItem.name"><br><br>
+      					<span>Name: </span><input type="text" ng-model="newItem.customName"><br><br>
                 <span>Expiration Date: </span><input type="text" ng-model="newItem.expDate"><br><br>
                 <span>Food Group: </span><input type="text" ng-model="newItem.foodGroup"><br><br>
-                <span>Location: </span><input type="text" ng-model="newItem.location">
+                <span>Location: </span><input type="text" ng-model="newItem.kitchenLocation">
       				</ng-form>
       			</div>
       			<div class="modal-footer">
@@ -86,26 +87,53 @@
           <th class="th">Exp. Date</th>
           <th class="th">Food Group</th>
           <th class="th">Location</th>
-          <th class="th" style="width: 15%"><button class="moving-button">Delete</button></th>
+          <th class="th" style="width: 15%"><button class="moving-button" ng-click="delete()">Delete</button></th>
         </tr>
         <tr class="tr" ng-repeat="item in inventoryArray">
-          <td class="td">{{item.name}}</td>
+          <td class="td">{{item.customName}}</td>
           <td class="td">{{item.expDate}}</td>
           <td class="td">{{item.foodGroup}}</td>
-          <td class="td">{{item.location}}</td>
+          <td class="td">{{item.kitchenLocation}}</td>
           <td class="td">
-          	<input type="checkbox">
+          	<input type="checkbox" ng-model="item.isChecked">
           	<a href="" title="Add to Shopping List"><i class="fa fa-plus" aria-hidden="true"></i></a>
-          	<div style="display: inline">
+          	<div style="display: inline" data-toggle="modal" data-target="#viewModal{{item.food_id}}">
           		<a href="" title="Detailed Info"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
           	</div>
-          	<div style="display: inline" data-toggle="modal" data-target="#editModal{{item.id}}">
+
+             <!-- VIEW ITEM MODAL-->
+
+             <div id="viewModal{{item.food_id}}" class="modal fade" role = "dialog">
+              <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                    <button type = "button" class="close" data-dismiss="modal">&times;</button>
+                   <h1>{{item.customName}}</h1>
+                  </div>
+                  <div class="modal-body">
+                    <ng-form class="modal-text">
+                      <span>Expiration Date: {{item.expDate}}</span><br><br>
+                      <span>Food Group: {{item.foodGroup}}</span><br><br>
+                      <span>Kitchen Location: {{item.kitchenLocation}}</span><br><br>
+                      <span>Store Location: {{item.storeLocation}}</span>
+                    </ng-form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Okay</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+             <!-- END VIEW ITEM-->
+
+          	<div style="display: inline" data-toggle="modal" data-target="#editModal{{item.food_id}}">
           		<a href="" title="Edit Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
           	</div>
 
              <!-- EDIT ITEM MODAL-->
 
-            <div id="editModal{{item.id}}" class="modal fade" role = "dialog">
+            <div id="editModal{{item.food_id}}" class="modal fade" role = "dialog">
               <div class="modal-dialog">
                <div class="modal-content">
                   <div class="modal-header">
