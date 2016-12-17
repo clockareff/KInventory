@@ -1,39 +1,3 @@
-// document.open("text/html", "replace");
-// document.write("<html><body><p>Hello World!</p></body></html>");
-// document.close();
-
-
-
-
-
-// // Add a new member into the array (example, using made up values)
-// obj.reports.push({
-//   "id": ""+obj.reports.length + 1,
-//   "type": "member",
-//   "name": "Joe",
-//   "email": "asdf@gmail.com",
-//   "password": "ajdj12oi42"
-// });
-
-// document.getElementById("during").innerHTML = JSON.stringify(obj);
-// console.log("During", JSON.parse(JSON.stringify(obj))); // objects use pointers, clone it to see the value at this point
-
-// // When deleting items, it is often easier to start high, and end low
-// for(var c = obj.reports.length - 1; c >= 0; c--) {
-//   // Delete member in JSON where id == 1 and email == amir@site.com
-//   if(obj.reports[c].id == "1" && obj.reports[c].email == "amir@site.com") {
-//     obj.reports.splice(c, 1);
-//   } else {
-//     // Add values into the objects (example, using random numbers)
-//     obj.reports[c].newKey = "New Value! " + Math.floor(Math.random() * 100);
-//   }
-// }
-
-// document.getElementById("after").innerHTML = JSON.stringify(obj);
-// console.log("After", JSON.parse(JSON.stringify(obj))); // objects use pointers, clone it to see the value at this point
-
-
-
 
 // Import JSON with an AJAX call
 
@@ -66,13 +30,12 @@ var user_data = (function() {
   return json;
 })();
 
-  console.log(food_data);
-  console.log(user_data);
-
-  console.log(food_data[0].food_id);
+console.log(food_data);
+console.log(user_data);
 
 
   // FOOD_DATA FUNCTIONS
+
 
   // Search food_data for a name
   // Requires: string foodName
@@ -122,6 +85,17 @@ var user_data = (function() {
       
       return results;
   }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -302,7 +276,10 @@ var user_data = (function() {
     return results;
   }
 
-console.log(searchFoodData("salt butter"));
+
+
+
+
 
 
   // INVENTORY FUNCTIONS
@@ -451,9 +428,13 @@ console.log(searchFoodData("salt butter"));
 // HELPER FUNCTIONS
 
 // Output user_data
-function outputUserData(input) 
+function outputUserData(output) 
 {
-  document.cookie = input;
+  var filepath = "user_data.json";
+  var txtFile = new File(filepath);
+  txtFile.open("w");
+  txtFile.writeln(output);
+  txtFile.close();
 }
 
 // Input user_data
@@ -479,25 +460,6 @@ function inputUserData()
 
   return document.cookie;
 }
-
-
-function alpha(first, second)
-{
-  return first.customName > second.customName;
-}
-
-function expDate(first, second)
-{
-  var firstDate = first.expDate.split("/");
-  var secondDate = second.expDate.split("/");
-
-  var date1 = new Date(firstDate[2], firstDate[0], firstDate[1]);
-  var date2 = new Date(secondDate[2], secondDate[0], secondDate[1]);
-
-  return date1 > date2;
-}
-
-
 
 
 
