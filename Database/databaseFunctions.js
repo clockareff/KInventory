@@ -389,7 +389,8 @@ console.log(food_data);
     setUserData(userData);
   }
 
-  console.log(removeFromInventory(1002));
+  console.log(getUserData());
+  removeFromInventory(1003);
   console.log(getUserData());
 
   // Move food_item to shopping list
@@ -453,7 +454,7 @@ function getUserData()
           if (name.length != c.length)
           {
             var userData = JSON.parse(c.substring(name.length, c.length));
-            return userData[0];
+            return userData;
           }
         }
     }
