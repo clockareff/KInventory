@@ -872,7 +872,7 @@ function getUserData()
     $.ajax({
       'async': false,
       'global': false,
-      'url': "http://www-personal.umich.edu/~bzimm/KInventory/Database/user_data.json",
+      'url': "user_data.json",
       'dataType': "json",
       'success': function (data) {
         json = data;
