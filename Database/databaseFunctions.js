@@ -30,6 +30,49 @@ console.log(food_data);
   function searchFoodDataChrome(foodName) {
       var results = [];
 
+      var data = getUserData();
+      var customFoodItems = data.customFoodItems;
+
+      for (var i = 0; i < customFoodItems.length; i++)
+      {
+          var resultName = customFoodItems[i].name;
+          var index = resultName.search(foodName.toUpperCase());
+
+          if (index != -1)
+          {
+            if (index != 0)
+            {
+              if (resultName[index-1] == " ")
+              {
+                var lastIdx = index+foodName.length;
+
+                if (lastIdx == resultName.length)
+                {
+                  results.push(customFoodItems[i]);
+                } 
+                else if (resultName[lastIdx] == " ")
+                {
+                  results.push(customFoodItems[i]);
+                }
+              }
+            }
+            else
+            {
+                var lastIdx = index+foodName.length;
+
+                if (lastIdx == resultName.length)
+                {
+                  results.push(customFoodItems[i]);
+                } 
+                else if (resultName[lastIdx] == " ")
+                {
+                  results.push(customFoodItems[i]);
+                }
+            }
+            
+          }
+      }
+
       for (var i = 0; i < food_data.length; i++)
       {
           var resultName = food_data[i].name;
@@ -73,11 +116,118 @@ console.log(food_data);
       return results;
   }
 
+// Search for food item to add
+  function searchFoodData(foodName) {
+    var searchArray = foodName.split(" ");
+    var results = [];
+    var data = getUserData();
+    var customFoodItems = data.customFoodItems;
+
+    for (var i = 0; i < customFoodItems.length; i++)
+    {
+      var numMatches = 0;
+      var resultName = customFoodItems[i].name;
+
+      for (var j = 0; j < searchArray.length; j++)
+      {
+        var index = resultName.search(searchArray[j].toUpperCase());
+        
+        if (index != -1)
+        {
+          if (index != 0)
+          {
+            if (resultName[index-1] == " ")
+            {
+              var lastIdx = index+searchArray[j].length;
+
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
+              }
+            }
+          }
+          else
+          {
+              var lastIdx = index+searchArray[j].length;
+
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
+              }
+          }
+          
+        }
+      }
+      
+      if (numMatches == searchArray.length)
+      {
+        results.push(customFoodItems[i]);
+      }
+    }
+  
+    for (var i = 0; i < food_data.length; i++)
+    {
+      var numMatches = 0;
+      var resultName = food_data[i].name;
+
+      for (var j = 0; j < searchArray.length; j++)
+      {
+        var index = resultName.search(searchArray[j].toUpperCase());
+        
+        if (index != -1)
+        {
+          if (index != 0)
+          {
+            if (resultName[index-1] == " ")
+            {
+              var lastIdx = index+searchArray[j].length;
+
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
+              }
+            }
+          }
+          else
+          {
+              var lastIdx = index+searchArray[j].length;
+
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
+              }
+          }
+        }
+      }
+      
+      if (numMatches == searchArray.length)
+      {
+        //results.push({hits : numMatches, foodItem : food_data[i]});
+        results.push(food_data[i]);
+      }
+    }
+    return results;
+  }
 
 
 
-
-
+  console.log(searchFoodData("apple"));
 
 
 
@@ -91,6 +241,7 @@ console.log(food_data);
 
   // Check if item is in shopping list
   // Requires: int food_id
+  // Modifies: nothing
   // Returns: bool
   function isInShoppingList(food_id)
   {
@@ -108,6 +259,9 @@ console.log(food_data);
   }
 
   // Return all food items
+  // Requires: nothing
+  // Modifies: nothing
+  // Returns: shoppingList
   function getShoppingList()
   {
     var userData = getUserData();
@@ -116,8 +270,9 @@ console.log(food_data);
   }
 
   // Return all food items sorted by sortField
-  // Requires sortField == "alpha", "foodGroup", "storeLoc"
-  // Returns json
+  // Requires: sortField == "alpha", "expDate", "foodGroup", "kitchLoc", "storeLoc"
+  // Modifies: nothing
+  // Returns: sorted shoppingList
   function getSortedShoppingList(sortField)
   {
     var userData = getUserData();
@@ -162,9 +317,106 @@ console.log(food_data);
   }
 
   // Add food item
+  // Requires: food_item, customName, expDate, kitchLoc, storeLoc, foodGroup
+  // Modifies: shoppingList
+  // Returns: shoppingList
+  function addToShoppingList(food_item, customName, expDate, kitchLoc, storeLoc, foodGroup)
+  {
+    var userData = getUserData();
+
+    var newFoodItem = {
+        food_id: food_item.food_id,
+        customName: customName,
+        expDate: expDate,
+        kitchenLocation: kitchLoc,
+        storeLocation: storeLoc,
+        foodGroup: foodGroup,
+        name: food_item.name,
+        cal: food_item.cal,
+        prot: food_item.prot,
+        fat: food_item.fat,
+        carb: food_item.carb,
+        fib: food_item.fib,
+        sug: food_item.sug,
+        sod: food_item.sod,
+        serv: food_item.serv
+      }
+
+      userData.shoppingList.push(newFoodItem);
+      setUserData(userData.shoppingList);
+  }
+
+
   // Add custom food_item
+  // Requires: string customName, expDate, kitchLoc, storeLoc, foodGroup;
+  // Modifies: shoppingList, customFoodItems
+  // Returns: shoppingList
+  function addCustomToShoppingList(customName, expDate, kitchLoc, storeLoc, foodGroup)
+  {
+    var userData = getUserData();
+
+    var newFoodItem = {
+        food_id: food_data.length + userData.customFoodItems.length,
+        customName: customName,
+        expDate: expDate,
+        kitchenLocation: kitchLoc,
+        storeLocation: storeLoc,
+        foodGroup: foodGroup,
+        name: customName,
+        cal: "",
+        prot: "",
+        fat: "",
+        carb: "",
+        fib: "",
+        sug: "",
+        sod: "",
+        serv: ""
+      };
+
+      userData.customFoodItems.push(newFoodItem);
+      userData.shoppingList.push(newFoodItem);
+
+      setUserData(userData);
+      return userData.shoppingList;
+  }
+
+  // Add custom food_item with nutritional information
+  // Requires: string customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv;
+  // Modifies: shoppingList and customFoodItems
+  // Returns: shoppingList
+  function addCustomToShoppingListWithNutrition(customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv)
+  {
+    var userData = getUserData();
+
+    var newFoodItem = {
+        food_id: food_data.length + userData.customFoodItems.length,
+        customName: customName,
+        expDate: expDate,
+        kitchenLocation: kitchLoc,
+        storeLocation: storeLoc,
+        foodGroup: foodGroup,
+        name: customName,
+        cal: cal,
+        prot: prot,
+        fat: fat,
+        carb: carb,
+        fib: fib,
+        sug: sug,
+        sod: sod,
+        serv: serv
+      };
+
+      userData.customFoodItems.push(newFoodItem);
+      userData.shoppingList.push(newFoodItem);
+
+      setUserData(userData);
+      return userData.shoppingList;
+  }
 
   // Remove food item
+  // Requires: food_id
+  // Modifies: user_data.inventory
+  // Returns: shoppingList
   function removeFromShoppingList(food_id)
   {
     var userData = getUserData();
@@ -178,9 +430,13 @@ console.log(food_data);
     }
 
       setUserData(userData);
+      return userData.shoppingList;
   }
 
-  // Move food_item to shopping list
+  // Move food_item to inventory
+  // Requires: food_id, expDate, kitchLoc
+  // Modifies: inventory, shoppingList
+  // Returns: shoppnigList
   function moveFromShoppingListToInventory(food_id, expDate, kitchLoc)
   {
     var userData = getUserData();
@@ -199,73 +455,8 @@ console.log(food_data);
     }
 
       setUserData(userData);
+      return userData.shoppingList;
   }
-
-
-  // Check if item is in inventory
-
-  // Search for food item to add
-  function searchFoodData(foodName) {
-    var searchArray = foodName.split(" ");
-
-    var results = [];
-
-    for (var i = 0; i < food_data.length; i++)
-    {
-      var numMatches = 0;
-      var resultName = food_data[i].name;
-
-      for (var j = 0; j < searchArray.length; j++)
-      {
-        var index = resultName.search(searchArray[j].toUpperCase());
-        
-        if (index != -1)
-        {
-          if (index != 0)
-          {
-            if (resultName[index-1] == " ")
-            {
-              var lastIdx = index+searchArray[j].length;
-
-              if (lastIdx == resultName.length)
-              {
-                numMatches += 1;
-              } 
-              else if (resultName[lastIdx] == " ")
-              {
-                numMatches += 1;
-              }
-            }
-          }
-          else
-          {
-              var lastIdx = index+searchArray[j].length;
-
-              if (lastIdx == resultName.length)
-              {
-                numMatches += 1;
-              } 
-              else if (resultName[lastIdx] == " ")
-              {
-                numMatches += 1;
-              }
-          }
-          
-        }
-      }
-      
-      if (numMatches == searchArray.length)
-      {
-        //results.push({hits : numMatches, foodItem : food_data[i]});
-        results.push(food_data[i]);
-      }
-    }
-    return results;
-  }
-
-
-
-
 
 
 
@@ -273,6 +464,7 @@ console.log(food_data);
 
   // Check if item is in inventory
   // Requires: int food_id
+  // Modifies: nothing
   // Returns: bool
   function isInInventory(food_id)
   {
@@ -290,6 +482,9 @@ console.log(food_data);
   }
 
   // Return all food items
+  // Requires: nothing
+  // Modifies: nothing
+  // Returns: inventory
   function getInventory()
   {
     var userData = getUserData();
@@ -298,8 +493,9 @@ console.log(food_data);
   }
 
   // Return all food items sorted by sortField
-  // Requires sortField == "alpha", "expDate", "foodGroup", "kitchLoc", "storeLoc"
-  // Returns json
+  // Requires: sortField == "alpha", "expDate", "foodGroup", "kitchLoc", "storeLoc"
+  // Modifies: nothing
+  // Returns: sorted inventory
   function getSortedInventory(sortField)
   {
     var userData = getUserData();
@@ -370,10 +566,108 @@ console.log(food_data);
   }
 
   // Add food item
+  // Requires: food_item, customName, expDate, kitchLoc, storeLoc, foodGroup
+  // Modifies: inventory
+  // Returns: inventory
+  function addToInventory(food_item, customName, expDate, kitchLoc, storeLoc, foodGroup)
+  {
+    var userData = getUserData();
+
+    var newFoodItem = {
+        food_id: food_item.food_id,
+        customName: customName,
+        expDate: expDate,
+        kitchenLocation: kitchLoc,
+        storeLocation: storeLoc,
+        foodGroup: foodGroup,
+        name: food_item.name,
+        cal: food_item.cal,
+        prot: food_item.prot,
+        fat: food_item.fat,
+        carb: food_item.carb,
+        fib: food_item.fib,
+        sug: food_item.sug,
+        sod: food_item.sod,
+        serv: food_item.serv
+      }
+
+      userData.inventory.push(newFoodItem);
+
+      setUserData(userData.inventory);
+
+  }
+
 
   // Add custom food_item
+  // Requires: string customName, expDate, kitchLoc, storeLoc, foodGroup;
+  // Modifies: inventory, customFoodItems
+  // Returns: inventory
+  function addCustomToInventory(customName, expDate, kitchLoc, storeLoc, foodGroup)
+  {
+    var userData = getUserData();
+
+    var newFoodItem = {
+        food_id: food_data.length + userData.customFoodItems.length,
+        customName: customName,
+        expDate: expDate,
+        kitchenLocation: kitchLoc,
+        storeLocation: storeLoc,
+        foodGroup: foodGroup,
+        name: customName,
+        cal: "",
+        prot: "",
+        fat: "",
+        carb: "",
+        fib: "",
+        sug: "",
+        sod: "",
+        serv: ""
+      };
+
+      userData.customFoodItems.push(newFoodItem);
+      userData.inventory.push(newFoodItem);
+
+      setUserData(userData);
+      return userData.inventory;
+  }
+
+  // Add custom food_item with nutritional information
+  // Requires: string customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv;
+  // Modifies: inventory and customFoodItems
+  // Returns: inventory
+  function addCustomToInventoryWithNutrition(customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv)
+  {
+    var userData = getUserData();
+
+    var newFoodItem = {
+        food_id: food_data.length + userData.customFoodItems.length,
+        customName: customName,
+        expDate: expDate,
+        kitchenLocation: kitchLoc,
+        storeLocation: storeLoc,
+        foodGroup: foodGroup,
+        name: customName,
+        cal: cal,
+        prot: prot,
+        fat: fat,
+        carb: carb,
+        fib: fib,
+        sug: sug,
+        sod: sod,
+        serv: serv
+      };
+
+      userData.customFoodItems.push(newFoodItem);
+      userData.inventory.push(newFoodItem);
+
+      setUserData(userData);
+      return userData.inventory;
+  }
 
   // Remove food item
+  // Requires: food_id
+  // Modifies: user_data.inventory
+  // Returns: inventory
   function removeFromInventory(food_id)
   {
     var userData = getUserData();
@@ -387,13 +681,13 @@ console.log(food_data);
     }
 
     setUserData(userData);
+    return userData.inventory;
   }
 
-  console.log(getUserData());
-  removeFromInventory(1003);
-  console.log(getUserData());
-
   // Move food_item to shopping list
+  // Requires: food_id, storeLoc
+  // Modifies: inventory, shoppingList
+  // Returns: inventory
   function moveFromInventoryToShoppingList(food_id, storeLoc)
   {
     var userData = getUserData();
@@ -411,6 +705,7 @@ console.log(food_data);
     }
 
       setUserData(userData);
+      return userData.inventory;
   }
  
 
@@ -473,12 +768,9 @@ function getUserData()
     return json;
   })();
   return user_dataJSON[0];
-    
 }
 
 function eraseCookie()
 {
   setUserData("");
 }
-
-
