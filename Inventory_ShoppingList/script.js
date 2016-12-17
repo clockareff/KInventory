@@ -1,7 +1,7 @@
 var app = angular.module('KInventory', []);
 
 app.controller('inventory', ['$scope', '$http', function($scope, $http){
-	$scope.inventoryArray = [{
+	/*$scope.inventoryArray = [{
 		customName: 'Milk',
 		expDate: '12/20/16',
 		foodGroup: 'Dairy',
@@ -17,8 +17,8 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 		storeLocation: 'Canned Food',
 		food_id: '1',
 		isChecked: false
-	}];
-	// $scope.inventoryArray = getInventory();
+	}];*/
+	$scope.inventoryArray = getInventory();
 	$scope.idCount = $scope.inventoryArray.length;
 	$scope.newItem = {};
 	$scope.updateItem = function(item){
