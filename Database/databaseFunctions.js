@@ -115,7 +115,7 @@ var food_data = (function() {
   $.ajax({
     'async': false,
     'global': false,
-    'url': "food_data.json",
+    'url': "http://www-personal.umich.edu/~clockar/KInventory/Database/food_data.json",
     'dataType': "json",
     'success': function (data) {
       json = data;
@@ -456,7 +456,7 @@ console.log(food_data);
       }
 
       userData.shoppingList.push(newFoodItem);
-      setUserData(userData.shoppingList);
+      setUserData(userData);
   }
 
 
@@ -706,7 +706,7 @@ console.log(food_data);
 
       userData.inventory.push(newFoodItem);
 
-      setUserData(userData.inventory);
+      setUserData(userData);
 
   }
 
@@ -872,7 +872,7 @@ function getUserData()
     $.ajax({
       'async': false,
       'global': false,
-      'url': "user_data.json",
+      'url': "http://www-personal.umich.edu/~clockar/KInventory/Database/user_data.json",
       'dataType': "json",
       'success': function (data) {
         json = data;

@@ -17,7 +17,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
   <script src="../Database/databaseFunctions.js"></script>
   <script src="script.js"></script>
 
@@ -41,7 +41,7 @@
     <div class = "main-content" ng-controller="inventory">
       <div class = "table-header" style = "font-size: 20px">
         <span>Sort by:</span>
-        <select>
+        <select ng-model="sort" ng-change="sortChange(sort)">
           <option>Name</option>
           <option>Expiration Date</option>
           <option>Food Group</option>
@@ -52,30 +52,101 @@
         </div>
       </div>
 
-       <!-- ADD ITEM MODAL-->
-
       <div id="addItemModal" class="modal fade" role = "dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type = "button" class="close" data-dismiss="modal">&times;</button>
+              <h1>Add Item</h1>
+            </div>
+            
+            <div class="modal-body">
+              <button class="btn btn-default" data-toggle="modal" data-target="#addCustomItemModal" data-dismiss="modal">Add Custom Item</button><br><br>
+              <button class="btn btn-default" data-toggle="modal" data-target="#searchItemModal" data-dismiss="modal" style="overflow: auto;">Search for Item</button>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!-- ADD CUSTOM ITEM MODAL-->
+
+      <div id="addCustomItemModal" class="modal fade" role = "dialog">
       	<div class="modal-dialog">
       		<div class="modal-content">
       			<div class="modal-header">
       				<button type = "button" class="close" data-dismiss="modal">&times;</button>
-      				<h1>Add Custom Item</h1>
+      				<h1 class="modal-title">Add Custom Item</h1>
       			</div>
       			
       			<div class="modal-body">
       				<ng-form>
       					<span>Name: </span><input type="text" ng-model="newItem.customName"><br><br>
-                <span>Expiration Date: </span><input type="text" ng-model="newItem.expDate"><br><br>
+                <span>Expiration Date(MM/DD/YYYY): </span><input type="text" ng-model="newItem.expDate"><br><br>
                 <span>Food Group: </span><input type="text" ng-model="newItem.foodGroup"><br><br>
-                <span>Location: </span><input type="text" ng-model="newItem.kitchenLocation">
+                <span>Kitchen Location: </span><input type="text" ng-model="newItem.kitchLoc"><br><br>
+                <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc"><br><br>
+                <span>Calories: </span><input type="text" ng-model="newItem.cal"><br><br>
+                <span>Protein: </span><input type="text" ng-model="newItem.prot"><br><br>
+                <span>Fat: </span><input type="text" ng-model="newItem.fat"><br><br>
+                <span>Carbs: </span><input type="text" ng-model="newItem.carb"><br><br>
+                <span>Fiber: </span><input type="text" ng-model="newItem.fib"><br><br>
+                <span>Sugar: </span><input type="text" ng-model="newItem.sug"><br><br>
+                <span>Sodium: </span><input type="text" ng-model="newItem.sod"><br><br>
+                <span>Serving: </span><input type="text" ng-model="newItem.serv"><br><br>
       				</ng-form>
       			</div>
       			<div class="modal-footer">
               <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-              <button ng-click="addItem(newItem)" class="btn btn-primary" data-dismiss="modal">Add Item</button>
+              <button ng-click="addCustomItem(newItem)" class="btn btn-primary" data-dismiss="modal">Add Item</button>
             </div>
       		</div>
       	</div>
+      </div>
+
+      <!--- SEARCH FOR ITEM MODAL-->
+
+      <div id="searchItemModal" class="modal fade" role = "dialog" style="overflow: auto;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type = "button" class="close" data-dismiss="modal">&times;</button>
+              <h1 class="modal-title">Search For Item</h1>
+            </div>
+            
+            <div class="modal-body">
+              <ng-form>
+                <h4>Customize Item</h4>
+                <span>Name: </span><input type="text" ng-model="newItem.customName"><br><br>
+                <span>Expiration Date(MM/DD/YYYY): </span><input type="text" ng-model="newItem.expDate"><br><br>
+                <span>Food Group: </span><input type="text" ng-model="newItem.foodGroup"><br><br>
+                <span>Kitchen Location: </span><input type="text" ng-model="newItem.kitchLoc"><br><br>
+                <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc">
+              </ng-form>
+              <br><br>
+              <h4>Type Food Name and Enter</h4>
+              <input type="text" ng-model="foodName" ng-keyup="searchFood($event, foodName)">
+              <br>
+              <h5>Click the food to add</h5>
+            </div>
+            <div class="modal-footer">
+              <div class="results">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="overflow: auto
+                ;" ng-repeat="result in searchResults">
+                  <div class="search-result" data-dismiss="modal" ng-click="addSearchItem(result, newItem)">
+                  <h6>{{result.name}}</h6>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <br>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- END ADD ITEM-->
@@ -96,7 +167,7 @@
           <td class="td">{{item.kitchenLocation}}</td>
           <td class="td">
           	<input type="checkbox" ng-model="item.isChecked">
-          	<a href="" title="Add to Shopping List"><i class="fa fa-plus" aria-hidden="true"></i></a>
+          	<a href="" title="Add to Shopping List" ng-click="addToShopList()"><i class="fa fa-plus" aria-hidden="true"></i></a>
           	<div style="display: inline" data-toggle="modal" data-target="#viewModal{{item.food_id}}">
           		<a href="" title="Detailed Info"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
           	</div>
@@ -115,7 +186,16 @@
                       <span>Expiration Date: {{item.expDate}}</span><br><br>
                       <span>Food Group: {{item.foodGroup}}</span><br><br>
                       <span>Kitchen Location: {{item.kitchenLocation}}</span><br><br>
-                      <span>Store Location: {{item.storeLocation}}</span>
+                      <span>Store Location: {{item.storeLocation}}</span><br><br>
+                      <span>Full Name: {{item.name}}</span><br><br>
+                      <span>Calories: {{item.cal}}</span><br><br>
+                      <span>Protein: {{item.prot}}</span><br><br>
+                      <span>Fat: {{item.fat}}</span><br><br>
+                      <span>Carbs: {{item.carb}}</span><br><br>
+                      <span>Fiber: {{item.fib}}</span><br><br>
+                      <span>Sugar: {{item.sug}}</span><br><br>
+                      <span>Sodium: {{item.sod}}</span><br><br>
+                      <span>Serving: {{item.serv}}</span>
                     </ng-form>
                   </div>
                   <div class="modal-footer">

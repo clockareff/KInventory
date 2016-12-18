@@ -59,6 +59,20 @@ HEADER
 	margin: 0px 30px 30px;
 }
 
+.search-result{
+	height: 50px;
+	overflow: auto;
+	background-color: #ffdead;
+	border: solid #18720c;
+	border-radius: 5px;
+	border-width: 2px;
+	text-align: center;
+}
+
+.modal {
+	overflow: auto;
+}
+
 /*
 TABLE
 */
