@@ -67,33 +67,63 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 	};
 }]);
 
+
+
+
+
 app.controller('shoppingList', ['$scope', '$http', function($scope, $http){
-	$scope.sLArray = [{
-		name: 'Cheese',
-		storeLocation: 'Dairy Aisle',
-		id: '0'
-	}, {
-		name: 'Oatmeal',
-		storeLocation: 'Breakfast Foods',
-		id: '1'
-	}];
-	$scope.idCount = $scope.sLArray.length;
+
+	$scope.currentSort = "alpha";
+	$scope.sortChange = function(newSort){
+		if(newSort == 'Name'){
+			$scope.currentSort = "alpha";
+			$scope.sLArray = getSortedShoppingList('alpha');
+		}else{
+			$scope.currentSort = 'storeLoc'
+			$scope.sLArray = getSortedShoppingList('storeLoc');
+		}
+	};
+
+	$scope.sLArray = getSortedShoppingList('alpha');
 	$scope.newItem = {};
 	$scope.updateItem = function(item){
 		for(var i = 0; i < $scope.sLArray.length; i++){
-			if (item.id == $scope.sLArray[i].id){
+			if (item.food_id == $scope.sLArray[i].id){
 				$scope.sLArray[i] = item;
 				break;
 			}
 		}
 		//Write to JSON -- TODO --
 	};
-	$scope.addItem = function(item){
-		item.id = $scope.idCount;
-		$scope.idCount++;
-		$scope.sLArray.push(item);
-		//SORT -- TODO --
-		//Write to JSON -- TODO --
+
+	$scope.addSearchItem = function(item, newItem){
+		addToShoppingList(item, newItem.customName, newItem.expDate, newItem.kitchLoc, newItem.storeLoc, newItem.foodGroup);
+		$scope.sLArray = getSortedShoppingList($scope.currentSort);
+		$scope.newItem = {};
+		
+	};
+
+	$scope.addCustomItem = function(item){
+		addCustomToShoppingListWithNutrition(item.customName, item.expDate, item.kitchLoc, item.storeLoc, item.foodGroup, item.cal, item.prot, item.fat, item.carb, item.fib, item.sug, item.sod, item.serv);
+		$scope.sLArray = getSortedShoppingList($scope.currentSort);
 		$scope.newItem = {};
 	};
+
+	$scope.delete = function(item){
+		for (var i = 0; i < $scope.sLArray.length; ++i){
+			if ($scope.sLArray[i].name == item.name){
+				removeFromShoppingList($scope.sLArray[i].food_id);
+				$scope.sLArray.splice(i,1);
+				i--;
+			}
+		}
+	};
+
+	$scope.searchFood = function(key, name){
+		if (key.keyCode == 13){
+			$scope.searchResults = searchFoodData(name);
+		}
+	};
+	
+
 }]);
