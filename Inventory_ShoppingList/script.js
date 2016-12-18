@@ -12,7 +12,7 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 		}else if (newSort == 'Food Group'){
 			$scope.currentSort = 'foodGroup';
 			$scope.inventoryArray = getSortedInventory('foodGroup');
-		}else{
+		}else if (newSort == 'Location') {
 			$scope.currentSort = 'kitchLoc'
 			$scope.inventoryArray = getSortedInventory('kitchLoc');
 		}
@@ -21,12 +21,13 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 	$scope.newItem = {};
 	$scope.updateItem = function(item){
 		for(var i = 0; i < $scope.inventoryArray.length; i++){
-			if (item.food_id == $scope.inventoryArray[i].id){
-				$scope.inventoryArray[i] = item;
+			if (item.food_id == $scope.inventoryArray[i].food_id){
+				editItemInInventory(item.food_id, item.customName, item.expDate, item.kitchenLocation, item.storeLocation, item.foodGroup);
 				break;
 			}
 		}
-		//Write to JSON -- TODO --
+		$scope.inventoryArray = getSortedInventory($scope.currentSort);
+		$('.modal-backdrop').remove();
 	};
 	
 	$scope.addSearchItem = function(item, newItem){
@@ -88,7 +89,7 @@ app.controller('shoppingList', ['$scope', '$http', function($scope, $http){
 	$scope.newItem = {};
 	$scope.updateItem = function(item){
 		for(var i = 0; i < $scope.sLArray.length; i++){
-			if (item.food_id == $scope.sLArray[i].id){
+			if (item.food_id == $scope.sLArray[i].food_id){
 				$scope.sLArray[i] = item;
 				break;
 			}

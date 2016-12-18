@@ -218,19 +218,20 @@
                <div class="modal-content">
                   <div class="modal-header">
                     <button type = "button" class="close" data-dismiss="modal">&times;</button>
-                   <h1>Edit Item</h1>
+                   <h1 class="modal-title">Edit Item</h1>
                   </div>
                   <div class="modal-body">
                     <ng-form class="modal-text">
-                      <span>Name: </span><input type="text" ng-model="item.name"><br><br>
+                      <span>Name: </span><input type="text" ng-model="item.customName"><br><br>
                       <span>Expiration Date: </span><input type="text" ng-model="item.expDate"><br><br>
                       <span>Food Group: </span><input type="text" ng-model="item.foodGroup"><br><br>
-                      <span>Location: </span><input type="text" ng-model="item.location">
+                      <span>Kitchen Location: </span><input type="text" ng-model="item.kitchenLocation"><br><br>
+                      <span>Store Location: </span><input type="text" ng-model="item.storeLocation">
                     </ng-form>
                   </div>
                   <div class="modal-footer">
                     <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button ng-click="updateItem(item)" class="btn btn-primary" data-dismiss="modal">Update Item</button>
+                    <button class="btn btn-primary" data-dismiss="modal" ng-click="updateItem(item)">Update Item</button>
                   </div>
 
                 </div>

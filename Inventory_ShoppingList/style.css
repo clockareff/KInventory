@@ -83,10 +83,19 @@ TABLE
     border-collapse: collapse;
     width: 100%;
     border: #18720c;
+    border-top: 1px solid #18720c
 }
 
-.td, .th {
+.td {
     border: 1px solid #18720c;
+    border-top: 1px solid #18720c
+    text-align: left;
+    padding: 8px;
+}
+
+.th {
+	border: 1px solid #18720c;
+    border-top: 1px solid #18720c
     text-align: left;
     padding: 8px;
 }
