@@ -138,10 +138,6 @@ var food_data = (function() {
 })();
 
 
-
-console.log(food_data);
-
-
   // FOOD_DATA FUNCTIONS
 
 
@@ -352,11 +348,6 @@ console.log(food_data);
 
 
 
-  console.log(searchFoodData("apple"));
-
-
-
-
 
 
 
@@ -547,7 +538,7 @@ console.log(food_data);
     var userData = getUserData();
 
     for (var i = 0; i < userData.shoppingList.length; i++)
-    {
+    { 
       if (userData.shoppingList[i].food_id == food_id)
       {
         userData.shoppingList[i].customName = customName;
