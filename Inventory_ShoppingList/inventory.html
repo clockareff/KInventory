@@ -167,7 +167,7 @@
           <td class="td">{{item.kitchenLocation}}</td>
           <td class="td">
           	<input type="checkbox" ng-model="item.isChecked">
-          	<a href="" title="Add to Shopping List" ng-click="addToShopList()"><i class="fa fa-plus" aria-hidden="true"></i></a>
+          	<a href="" title="Move to Shopping List" ng-click="addToShopList(item)"><i class="fa fa-plus" aria-hidden="true"></i></a>
           	<div style="display: inline" data-toggle="modal" data-target="#viewModal{{item.food_id}}">
           		<a href="" title="Detailed Info"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
           	</div>
