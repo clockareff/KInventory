@@ -146,93 +146,79 @@ var food_data = (function() {
   // Modifies: nothing
   // Returns: json containing match results
   function searchFoodDataChrome(foodName) {
-      var results = [];
+      var numMatches = 0;
+      var resultName = customFoodItems[i].name;
+  
+    for (var i = 0; i < food_data.length; i++)
+    {
+      var numMatches = 0;
+      var resultName = food_data[i].name;
 
-      var data = getUserData();
-      var customFoodItems = data.customFoodItems;
-
-      for (var i = 0; i < customFoodItems.length; i++)
+      for (var j = 0; j < searchArray.length; j++)
       {
-          var resultName = customFoodItems[i].name;
-          var index = resultName.search(foodName.toUpperCase());
-
-          if (index != -1)
+        var index = resultName.search(searchArray[j].toUpperCase());
+        
+        if (index != -1)
+        {
+          if (index != 0)
           {
-            if (index != 0)
+            if (resultName[index-1] == " ")
             {
-              if (resultName[index-1] == " ")
-              {
-                var lastIdx = index+foodName.length;
+              var lastIdx = index+searchArray[j].length;
 
-                if (lastIdx == resultName.length)
-                {
-                  results.push(customFoodItems[i]);
-                } 
-                else if (resultName[lastIdx] == " ")
-                {
-                  results.push(customFoodItems[i]);
-                }
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
               }
             }
-            else
-            {
-                var lastIdx = index+foodName.length;
-
-                if (lastIdx == resultName.length)
-                {
-                  results.push(customFoodItems[i]);
-                } 
-                else if (resultName[lastIdx] == " ")
-                {
-                  results.push(customFoodItems[i]);
-                }
-            }
-            
           }
-      }
-
-      for (var i = 0; i < food_data.length; i++)
-      {
-          var resultName = food_data[i].name;
-          var index = resultName.search(foodName.toUpperCase());
-
-          if (index != -1)
+          else
           {
-            if (index != 0)
-            {
-              if (resultName[index-1] == " ")
+              var lastIdx = index+searchArray[j].length;
+
+              if (lastIdx == resultName.length)
               {
-                var lastIdx = index+foodName.length;
-
-                if (lastIdx == resultName.length)
-                {
-                  results.push(food_data[i]);
-                } 
-                else if (resultName[lastIdx] == " ")
-                {
-                  results.push(food_data[i]);
-                }
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
               }
-            }
-            else
-            {
-                var lastIdx = index+foodName.length;
-
-                if (lastIdx == resultName.length)
-                {
-                  results.push(food_data[i]);
-                } 
-                else if (resultName[lastIdx] == " ")
-                {
-                  results.push(food_data[i]);
-                }
-            }
-            
           }
+        }
       }
+
       
-      return results;
+      if (numMatches > 0)
+      {
+        //results.push({hits : numMatches, foodItem : food_data[i]});
+        results.push({hits: numMatches, foodItem: food_data[i]});
+      }
+    }
+
+    var sortedResult = results.sort(function (first, second)
+        {
+          if (first.numMatches >= second.numMatches)
+            return 1;
+          else
+            return -1;
+        });
+
+    var finalResult = [];
+
+    for (var i = 0; i < sortedResult.length; i++)
+    {
+      finalResult.push(sortedResult[i].foodItem);
+    }
+
+    return finalResult;
   }
+
+
 
 // Search for food item to add
 // Requires: string foodName (can be multiple words)
