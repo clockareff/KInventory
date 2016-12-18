@@ -50,6 +50,12 @@
   // Returns: shoppingList
   // function addCustomToShoppingListWithNutrition(customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv)
   
+  // Edit food item
+  // Requires: food_id, customName, expDate, kitchLoc, storeLoc, foodGroup
+  // Modifies: shoppingList
+  // Returns: shoppingList
+  // function addToShoppingList(food_item, customName, expDate, kitchLoc, storeLoc, foodGroup)
+
   // Remove food item
   // Requires: food_id
   // Modifies: user_data.inventory
@@ -94,6 +100,12 @@
   // Returns: inventory
   // function addCustomToInventoryWithNutrition(customName, expDate, kitchLoc, storeLoc, foodGroup, cal, prot, fat, carb, fib, sug, sod, serv)
   
+  // Edit food item
+  // Requires: food_id, customName, expDate, kitchLoc, storeLoc, foodGroup
+  // Modifies: inventory
+  // Returns: inventory
+  // function addToInventory(food_item, customName, expDate, kitchLoc, storeLoc, foodGroup)
+
   // Remove food item
   // Requires: food_id
   // Modifies: user_data.inventory
@@ -526,6 +538,30 @@ console.log(food_data);
       return userData.shoppingList;
   }
 
+  // Edit food item
+  // Requires: food_id, customName, expDate, kitchLoc, storeLoc, foodGroup
+  // Modifies: shoppingList
+  // Returns: shoppingList
+  function editItemInShoppingList(food_id, customName, expDate, kitchLoc, storeLoc, foodGroup)
+  {
+    var userData = getUserData();
+
+    for (var i = 0; i < userData.shoppingList.length; i++)
+    {
+      if (userData.shoppingList[i].food_id == food_id)
+      {
+        userData.shoppingList[i].customName = customName;
+        userData.shoppingList[i].expDate: expDate;
+        userData.shoppingList[i].kitchenLocation: kitchLoc;
+        userData.shoppingList[i].storeLocation: storeLoc;
+        userData.shoppingList[i].foodGroup: foodGroup;
+      }
+    }
+
+      setUserData(userData);
+      return userData.shoppingList;
+  }
+
   // Remove food item
   // Requires: food_id
   // Modifies: user_data.inventory
@@ -772,6 +808,30 @@ console.log(food_data);
 
       userData.customFoodItems.push(newFoodItem);
       userData.inventory.push(newFoodItem);
+
+      setUserData(userData);
+      return userData.inventory;
+  }
+
+  // Edit food item
+  // Requires: food_id, customName, expDate, kitchLoc, storeLoc, foodGroup
+  // Modifies: inventory
+  // Returns: inventory
+  function editItemInInventory(food_id, customName, expDate, kitchLoc, storeLoc, foodGroup)
+  {
+    var userData = getUserData();
+
+    for (var i = 0; i < userData.inventory.length; i++)
+    {
+      if (userData.inventory[i].food_id == food_id)
+      {
+        userData.inventory[i].customName = customName;
+        userData.inventory[i].expDate: expDate;
+        userData.inventory[i].kitchenLocation: kitchLoc;
+        userData.inventory[i].storeLocation: storeLoc;
+        userData.inventory[i].foodGroup: foodGroup;
+      }
+    }
 
       setUserData(userData);
       return userData.inventory;
