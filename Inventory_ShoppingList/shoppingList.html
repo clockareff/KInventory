@@ -257,11 +257,18 @@
               <span>Kitchen Location: </span><input type="text" ng-model="newItem.kitchLoc"><br><br>
               <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc"><br><br>
             </ng-form>
-            <button class="btn btn-default">Search For <span class="newItemName"></span>
+            <button class="btn btn-default" ng-click="chromeSearchFood()">Search For <span class="newItemName"></span>
           </div>
           <div class="modal-footer">
+            <div class="results">
+              <div class="col-lg-4 col-md-4 col-sm-4" style="overflow: auto
+              ;" ng-repeat="result in chromeSearchResults">
+                <div class="search-result" data-dismiss="modal" ng-click="addSearchItem(result, newItem)">
+                  <h6>{{result.name}}</h6>
+                </div>
+              </div>
+            </div>
             <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button ng-click="addCustomItem(newItem)" class="btn btn-primary" data-dismiss="modal">Add Item</button>
           </div>
 
         </div>

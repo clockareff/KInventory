@@ -1,7 +1,5 @@
 var app = angular.module('KInventory', []);
 
-var chromeName = null;
-
 app.controller('inventory', ['$scope', '$http', function($scope, $http){
 	$scope.currentSort = "alpha";
 	$scope.sortChange = function(newSort){
@@ -95,12 +93,11 @@ app.controller('shoppingList', ['$scope', '$http', function($scope, $http){
 	$scope.updateItem = function(item){
 		for(var i = 0; i < $scope.sLArray.length; i++){
 			if (item.food_id == $scope.sLArray[i].food_id){
-				editItemInShoppingList(item.food_id, item.customName, item.expDate, item.kitchenLocation, item.storeLocation, item.foodGroup);
+				$scope.sLArray[i] = item;
 				break;
 			}
 		}
-		$scope.sLArray = getSortedShoppingList($scope.currentSort);
-		$('.modal-backdrop').remove();
+		//Write to JSON -- TODO --
 	};
 
 	$scope.addSearchItem = function(item, newItem){
@@ -131,14 +128,7 @@ app.controller('shoppingList', ['$scope', '$http', function($scope, $http){
 			$scope.searchResults = searchFoodData(name);
 		}
 	};
-
-	$scope.chromeSearchFood = function(){
-		$scope.chromeSearchResults = searchFoodDataChrome(chromeName);
-		if ($scope.chromeSearchResults.length == 0){
-			alert('Search Returned 0 Results');
-		}
-		chromeName = null;
-	};
+	
 
 }]);
 
@@ -146,9 +136,7 @@ app.controller('shoppingList', ['$scope', '$http', function($scope, $http){
 $(document).ready( function() {
 	console.log('ello');
 	if (gup('name')){
-		chromeName = parseString(gup('name'));
-		$('.newItemName').html(chromeName);
-
+		$('.newItemName').html(parseString(gup('name')));
 		$('#chromeSearchModal').modal('show');
 	}
 });
