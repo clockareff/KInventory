@@ -93,11 +93,12 @@ app.controller('shoppingList', ['$scope', '$http', function($scope, $http){
 	$scope.updateItem = function(item){
 		for(var i = 0; i < $scope.sLArray.length; i++){
 			if (item.food_id == $scope.sLArray[i].food_id){
-				$scope.sLArray[i] = item;
+				editItemInShoppingList(item.food_id, item.customName, item.expDate, item.kitchenLocation, item.storeLocation, item.foodGroup);
 				break;
 			}
 		}
-		//Write to JSON -- TODO --
+		$scope.sLArray = getSortedShoppingList($scope.currentSort);
+		$('.modal-backdrop').remove();
 	};
 
 	$scope.addSearchItem = function(item, newItem){
