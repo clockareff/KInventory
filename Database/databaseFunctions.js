@@ -146,8 +146,60 @@ var food_data = (function() {
   // Modifies: nothing
   // Returns: json containing match results
   function searchFoodDataChrome(foodName) {
+    var searchArray = foodName.split(" ");
+    var results = [];
+    var data = getUserData();
+    var customFoodItems = data.customFoodItems;
+
+    for (var i = 0; i < customFoodItems.length; i++)
+    {
       var numMatches = 0;
       var resultName = customFoodItems[i].name;
+
+      for (var j = 0; j < searchArray.length; j++)
+      {
+        var index = resultName.search(searchArray[j].toUpperCase());
+        
+        if (index != -1)
+        {
+          if (index != 0)
+          {
+            if (resultName[index-1] == " ")
+            {
+              var lastIdx = index+searchArray[j].length;
+
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
+              }
+            }
+          }
+          else
+          {
+              var lastIdx = index+searchArray[j].length;
+
+              if (lastIdx == resultName.length)
+              {
+                numMatches += 1;
+              } 
+              else if (resultName[lastIdx] == " ")
+              {
+                numMatches += 1;
+              }
+          }
+          
+        }
+      }
+      
+      if (numMatches > 0)
+      {
+        results.push({hits: numMatches, foodItem: food_data[i]});
+      }
+    }
   
     for (var i = 0; i < food_data.length; i++)
     {
@@ -195,7 +247,6 @@ var food_data = (function() {
       
       if (numMatches > 0)
       {
-        //results.push({hits : numMatches, foodItem : food_data[i]});
         results.push({hits: numMatches, foodItem: food_data[i]});
       }
     }
