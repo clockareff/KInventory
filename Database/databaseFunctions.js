@@ -579,10 +579,10 @@ var food_data = (function() {
       if (userData.shoppingList[i].food_id == food_id)
       {
         userData.shoppingList[i].customName = customName;
-        userData.shoppingList[i].expDate: expDate;
-        userData.shoppingList[i].kitchenLocation: kitchLoc;
-        userData.shoppingList[i].storeLocation: storeLoc;
-        userData.shoppingList[i].foodGroup: foodGroup;
+        userData.shoppingList[i].expDate = expDate;
+        userData.shoppingList[i].kitchenLocation = kitchLoc;
+        userData.shoppingList[i].storeLocation = storeLoc;
+        userData.shoppingList[i].foodGroup = foodGroup;
       }
     }
 
@@ -854,10 +854,10 @@ var food_data = (function() {
       if (userData.inventory[i].food_id == food_id)
       {
         userData.inventory[i].customName = customName;
-        userData.inventory[i].expDate: expDate;
-        userData.inventory[i].kitchenLocation: kitchLoc;
-        userData.inventory[i].storeLocation: storeLoc;
-        userData.inventory[i].foodGroup: foodGroup;
+        userData.inventory[i].expDate = expDate;
+        userData.inventory[i].kitchenLocation = kitchLoc;
+        userData.inventory[i].storeLocation = storeLoc;
+        userData.inventory[i].foodGroup = foodGroup;
       }
     }
 

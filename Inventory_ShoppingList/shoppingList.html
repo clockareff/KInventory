@@ -15,11 +15,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  
   <script src="../Database/databaseFunctions.js"></script>
   <script src="script.js"></script>
+  <script src='gup.js'></script>
 
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
@@ -60,7 +62,7 @@
             </div>
             
             <div class="modal-body">
-              <button class="btn btn-default" data-toggle="modal" data-target="#addCustomItemModal" data-dismiss="modal">Add Custom Item</button><br><br>
+              <button class="btn btn-default" data-toggle="modal" data-target="#addCustomItemModal" data-dismiss="modal" style="overflow:auto;">Add Custom Item</button><br><br>
               <button class="btn btn-default" data-toggle="modal" data-target="#searchItemModal" data-dismiss="modal" style="overflow: auto;">Search for Item</button>
             </div>
             <div class="modal-footer">
@@ -72,7 +74,7 @@
 
        <!-- ADD CUSTOM ITEM MODAL-->
 
-      <div id="addCustomItemModal" class="modal fade" role = "dialog">
+      <div id="addCustomItemModal" class="modal fade" role = "dialog" style="overflow: auto;">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -86,7 +88,8 @@
                 <span>Expiration Date(MM/DD/YYYY): </span><input type="text" ng-model="newItem.expDate"><br><br>
                 <span>Food Group: </span><input type="text" ng-model="newItem.foodGroup"><br><br>
                 <span>Kitchen Location: </span><input type="text" ng-model="newItem.kitchLoc"><br><br>
-                <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc"><br><br>
+                <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc"><br><br><br>
+                <span>(Optional Nutrional Info)</span><br>
                 <span>Calories: </span><input type="text" ng-model="newItem.cal"><br><br>
                 <span>Protein: </span><input type="text" ng-model="newItem.prot"><br><br>
                 <span>Fat: </span><input type="text" ng-model="newItem.fat"><br><br>
@@ -151,24 +154,61 @@
       <!-- END ADD ITEM-->
       <!-- TABLE-->
 
-      <table class="table" style="font-size:2em;">
+      <table class="table">
         <tr class="tr">
           <th class="th">Name</th>
           <th class="th">Store Location</th>
           <th class="th" style="width: 5%"></th>
         </tr>
         <tr class="tr" ng-repeat="item in sLArray">
-          <td class="td" >{{item.name}}
-            <div style="display: inline">
+          <td class="td" >{{item.customName}}
+            <div style="display: inline" data-toggle="modal" data-target="#viewModal{{item.food_id}}">
               <a href="" title="Detailed Info"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
             </div>
-            <div style="display: inline" data-toggle="modal" data-target="#editModal{{item.id}}">
+
+
+             <!-- VIEW ITEM MODAL-->
+
+             <div id="viewModal{{item.food_id}}" class="modal fade" role = "dialog">
+              <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                    <button type = "button" class="close" data-dismiss="modal">&times;</button>
+                   <h1>{{item.customName}}</h1>
+                  </div>
+                  <div class="modal-body">
+                    <ng-form class="modal-text">
+                      <span>Expiration Date: {{item.expDate}}</span><br><br>
+                      <span>Food Group: {{item.foodGroup}}</span><br><br>
+                      <span>Kitchen Location: {{item.kitchenLocation}}</span><br><br>
+                      <span>Store Location: {{item.storeLocation}}</span><br><br>
+                      <span>Full Name: {{item.name}}</span><br><br>
+                      <span>Calories: {{item.cal}}</span><br><br>
+                      <span>Protein: {{item.prot}}</span><br><br>
+                      <span>Fat: {{item.fat}}</span><br><br>
+                      <span>Carbs: {{item.carb}}</span><br><br>
+                      <span>Fiber: {{item.fib}}</span><br><br>
+                      <span>Sugar: {{item.sug}}</span><br><br>
+                      <span>Sodium: {{item.sod}}</span><br><br>
+                      <span>Serving: {{item.serv}}</span>
+                    </ng-form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Okay</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+             <!-- END VIEW ITEM-->
+
+            <div style="display: inline" data-toggle="modal" data-target="#editModal{{item.food_id}}">
               <a href="" title="Edit Item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             </div>
 
              <!-- EDIT ITEM MODAL-->
 
-            <div id="editModal{{item.id}}" class="modal fade" role = "dialog">
+            <div id="editModal{{item.food_id}}" class="modal fade" role = "dialog">
               <div class="modal-dialog">
                <div class="modal-content">
                   <div class="modal-header">
@@ -177,7 +217,7 @@
                   </div>
                   <div class="modal-body">
                     <ng-form class="modal-text">
-                      <span>Name: </span><input type="text" ng-model="item.name"><br><br>
+                      <span>Name: </span><input type="text" ng-model="item.customName"><br><br>
                       <span>Store Location: </span><input type="text" ng-model="item.storeLocation"><br><br>
                     </ng-form>
                   </div>
@@ -197,11 +237,36 @@
           <td class="td">
 
             <div style="display: inline;">
-              <input type="image" title="Delete item" src="../ChromeExtension/redX.png" style="height:40px;" ng-click="delete(item)"></input>
+              <input type="image" title="Delete item" src="../ChromeExtension/redX.png" style="height:20px;" ng-click="delete(item)"></input>
             </div>
           </td>
         </tr>
       </table>
+      <div id="chromeSearchModal" class="modal fade" role="dialog" style="overflow: auto;">
+        <div class="modal-dialog">
+         <div class="modal-content">
+          <div class="modal-header">
+            <button type = "button" class="close" data-dismiss="modal">&times;</button>
+            <h1 class="modal-title">Add <span class="newItemName"></span></h1>
+          </div>
+          <div class="modal-body">
+            <ng-form class="modal-text">
+              <span>Name: </span><input type="text" ng-model="newItem.customName"><br><br>
+              <span>Expiration Date(MM/DD/YYYY): </span><input type="text" ng-model="newItem.expDate"><br><br>
+              <span>Food Group: </span><input type="text" ng-model="newItem.foodGroup"><br><br>
+              <span>Kitchen Location: </span><input type="text" ng-model="newItem.kitchLoc"><br><br>
+              <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc"><br><br>
+            </ng-form>
+            <button class="btn btn-default">Search For <span class="newItemName"></span>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button ng-click="addCustomItem(newItem)" class="btn btn-primary" data-dismiss="modal">Add Item</button>
+          </div>
+
+        </div>
+      </div>
+      </div>
     </div>
   </body>
 </html>
