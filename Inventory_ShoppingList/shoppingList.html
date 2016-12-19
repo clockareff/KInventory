@@ -15,11 +15,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  
   <script src="../Database/databaseFunctions.js"></script>
   <script src="script.js"></script>
+  <script src='gup.js'></script>
 
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
@@ -86,7 +88,8 @@
                 <span>Expiration Date(MM/DD/YYYY): </span><input type="text" ng-model="newItem.expDate"><br><br>
                 <span>Food Group: </span><input type="text" ng-model="newItem.foodGroup"><br><br>
                 <span>Kitchen Location: </span><input type="text" ng-model="newItem.kitchLoc"><br><br>
-                <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc"><br><br>
+                <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc"><br><br><br>
+                <span>(Optional Nutrional Info)</span><br>
                 <span>Calories: </span><input type="text" ng-model="newItem.cal"><br><br>
                 <span>Protein: </span><input type="text" ng-model="newItem.prot"><br><br>
                 <span>Fat: </span><input type="text" ng-model="newItem.fat"><br><br>
@@ -202,6 +205,31 @@
           </td>
         </tr>
       </table>
+      <div id="chromeSearchModal" class="modal fade" role="dialog" style="overflow: auto;">
+        <div class="modal-dialog">
+         <div class="modal-content">
+          <div class="modal-header">
+            <button type = "button" class="close" data-dismiss="modal">&times;</button>
+            <h1 class="modal-title">Add <span class="newItemName"></span></h1>
+          </div>
+          <div class="modal-body">
+            <ng-form class="modal-text">
+              <span>Name: </span><input type="text" ng-model="newItem.customName"><br><br>
+              <span>Expiration Date(MM/DD/YYYY): </span><input type="text" ng-model="newItem.expDate"><br><br>
+              <span>Food Group: </span><input type="text" ng-model="newItem.foodGroup"><br><br>
+              <span>Kitchen Location: </span><input type="text" ng-model="newItem.kitchLoc"><br><br>
+              <span>Store Location: </span><input type="text" ng-model="newItem.storeLoc"><br><br>
+            </ng-form>
+            <button class="btn btn-default">Search For <span class="newItemName"></span>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button ng-click="addCustomItem(newItem)" class="btn btn-primary" data-dismiss="modal">Add Item</button>
+          </div>
+
+        </div>
+      </div>
+      </div>
     </div>
   </body>
 </html>

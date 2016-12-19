@@ -64,6 +64,9 @@ app.controller('inventory', ['$scope', '$http', function($scope, $http){
 	$scope.searchFood = function(key, name){
 		if (key.keyCode == 13){
 			$scope.searchResults = searchFoodData(name);
+			if ($scope.searchResults.length == 0){
+				alert("Search Returned 0 Results");
+			}
 		}
 	};
 }]);
@@ -128,3 +131,18 @@ app.controller('shoppingList', ['$scope', '$http', function($scope, $http){
 	
 
 }]);
+
+
+$(document).ready( function() {
+	console.log('ello');
+	if (gup('name')){
+		$('.newItemName').html(parseString(gup('name')));
+		$('#chromeSearchModal').modal('show');
+	}
+});
+
+function parseString(parse){
+	parse = parse.replace('_', ' ');
+	console.log(parse);
+	return parse;
+}
