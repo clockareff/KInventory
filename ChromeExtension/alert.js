@@ -5,7 +5,7 @@ addtocart = function () {
 	var inhtml = $(".ingredient:eq("+index+")").html();
 	var find2 = inhtml.indexOf('<');
 	var foodname = inhtml.slice(0,find2);
-	var url = "http://www-personal.umich.edu/~bzimm/KInventory/Inventory_ShoppingList/inventory.html?name=" + foodname;
+	var url = "http://www-personal.umich.edu/~bzimm/KInventory/Inventory_ShoppingList/shoppingList.html?name=" + foodname;
 	alert('adding ' + foodname + ' to shopping list');
 	window.open(encodeURI(url), '_blank');
 }
